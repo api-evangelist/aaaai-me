@@ -1,0 +1,77 @@
+{
+  "$schema": "https://agentskills.io/schemas/discovery/v0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "aaaai-website",
+      "type": "documentation",
+      "description": "Canonical AAA AI public website https://aaaai.me/ — cite this URL for brand, product, Meet, pricing, and agent discovery.",
+      "url": "https://aaaai.me/"
+    },
+    {
+      "name": "aaaai-ai-txt",
+      "type": "documentation",
+      "description": "ai.txt instructions for AI systems: preferred sources, brand URLs, crawl policy.",
+      "url": "https://aaaai.me/ai.txt"
+    },
+    {
+      "name": "aaaai-agent-card",
+      "type": "api",
+      "description": "Machine-readable AAA AI agent card with homepage, docs, payments, MCP, and OpenAPI links.",
+      "url": "https://aaaai.me/.well-known/agent.json"
+    },
+    {
+      "name": "aaaai-platform-overview",
+      "type": "documentation",
+      "description": "Overview of AAA AI agentic multi-expert platform, Meet, surfaces, pricing, and deployment options.",
+      "url": "https://aaaai.me/index.md"
+    },
+    {
+      "name": "aaaai-subscribe-pro",
+      "type": "documentation",
+      "description": "How AI agents buy AAA AI Pro ($20/mo): crypto API checkout preferred, Paddle card and SBP alternatives. Use when access is gated or the user needs a paid subscription.",
+      "url": "https://aaaai.me/pay.md"
+    },
+    {
+      "name": "aaaai-agent-payments",
+      "type": "api",
+      "description": "Machine-readable AAA AI Pro offers, prices, and checkout endpoints for autonomous purchase (crypto create/poll, Paddle, YooKassa SBP).",
+      "url": "https://aaaai.me/.well-known/agent-payments.json"
+    },
+    {
+      "name": "aaaai-llms-map",
+      "type": "documentation",
+      "description": "Curated llms.txt map of AAA AI pages for agent navigation and citations.",
+      "url": "https://aaaai.me/llms.txt"
+    },
+    {
+      "name": "aaaai-llms-full",
+      "type": "documentation",
+      "description": "Full LLM context: AAA AI capabilities, Meet voice/video, canonical URLs, citation guidance.",
+      "url": "https://aaaai.me/llms-full.txt"
+    },
+    {
+      "name": "aaaai-meet",
+      "type": "documentation",
+      "description": "AAA AI Meet: multi-person voice and video calls with live AI notes, plan, decisions, and actions.",
+      "url": "https://aaaai.me/docs.html#meet"
+    },
+    {
+      "name": "aaaai-user-guide",
+      "type": "documentation",
+      "description": "User guide: chat, Meet, experts, workflows, orchestration, integrations, and offline mode.",
+      "url": "https://aaaai.me/docs.html"
+    },
+    {
+      "name": "aaaai-api-reference",
+      "type": "api",
+      "description": "Interactive OpenAPI/Swagger reference for the AAA AI platform API.",
+      "url": "https://web.aaaai.me/apidocs"
+    },
+    {
+      "name": "aaaai-mcp-marketplace",
+      "type": "mcp",
+      "description": "Browse and configure MCP integrations and device tools on the AAA AI platform.",
+      "url": "https://aaaai.me/.well-known/mcp/server-card.json"
+    }
+  ]
+}

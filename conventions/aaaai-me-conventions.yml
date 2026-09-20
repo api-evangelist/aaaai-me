@@ -1,0 +1,100 @@
+generated: '2026-09-19'
+method: derived
+source: >-
+  openapi/aaaai-me-openapi.json (Swagger 2.0, 102 operations, no operationIds, no definitions) read
+  in full; https://aaaai.me/auth.md, https://aaaai.me/pay.md, https://aaaai.me/docs.html,
+  https://aaaai.me/.well-known/agent-payments.json; live unauthenticated responses from
+  web.aaaai.me observed 2026-09-19. No conventions or API-guide page is published; where a rule
+  below says "none", the contract and the docs are both silent.
+cross_links:
+  authentication: authentication/aaaai-me-authentication.yml
+  errors: errors/aaaai-me-problem-types.yml
+  lifecycle: lifecycle/aaaai-me-lifecycle.yml
+  rate_limits: rate-limits/aaaai-me-rate-limits.yml
+  scopes: scopes/aaaai-me-scopes.yml
+base_url: https://web.aaaai.me
+media_type: 'application/json (request bodies are Swagger in-body JSON objects; attachments and avatar are multipart uploads)'
+authentication:
+  style: header api key or session cookie
+  detail: >-
+    Swagger securityDefinitions.ApiKeyAuth = apiKey in header "X-User-Login"; the live 401 says
+    "Please login or provide X-User-Login header". Browser clients get a "session" cookie (HttpOnly,
+    SameSite=Lax, 30-day expiry) from POST /api/auth/login; Sign in with Apple via POST /api/auth/apple.
+    Agents creating exec approvals send an "X-Agent-Token" header (named in the summary of
+    POST /api/approvals). auth.md says programmatic clients "should use API keys configured in the
+    product (Settings -> API keys) or OAuth tokens where supported"; the OAuth metadata is published
+    but its issuer host serves no discovery document (scopes/). No operation in the contract applies
+    a security requirement, so which routes are anonymous is only knowable by probing: /api/health,
+    /api/billing/crypto/config, /api/billing/yookassa/config and /api/mcp/marketplace answered 200
+    without credentials; /api/status answered 401.
+idempotency:
+  coverage: none
+  header: null
+  scope: []
+  retention: null
+  detail: >-
+    No Idempotency-Key or equivalent parameter on any of the 60 mutating operations (POST/PUT/PATCH/
+    DELETE) and no replay-protection guidance in the docs. Creates (chats, cron jobs, dynamic experts,
+    approvals, attachments) will duplicate on retry.
+pagination:
+  style: none
+  params: []
+  response_fields: []
+  detail: >-
+    Only two operations take a query "limit" (GET /api/memories and GET /api/cognitive-scaling/memory,
+    per the contract); no cursor, offset or page parameter exists and no list operation documents a
+    next-page field.
+field_expansion: none
+sparse_fields: none
+metadata: none
+request_tracing:
+  request_id_header: null
+  detail: No request-id header is documented and none was observed on the 400/401/404/405 responses.
+versioning:
+  scheme: mixed (unversioned /api/* plus /v1/* for the OpenAI-compatible routes); info.version 1.1.0
+  detail: See lifecycle/aaaai-me-lifecycle.yml.
+error_envelope:
+  shape: '{"message": "<text>", "status": "error"}'
+  content_type: application/json
+  code_field: null
+  detail: See errors/aaaai-me-problem-types.yml. A 403 carrying subscribe_url marks the subscription gate (documented in agent-payments.json, not in the contract).
+rate_limit_signaling:
+  headers: []
+  status_on_exhaustion: null
+  detail: Undocumented; no RateLimit-*/X-RateLimit-*/Retry-After header was observed. See rate-limits/aaaai-me-rate-limits.yml.
+streaming:
+  style: server-sent events
+  operations: ['POST /api/query/stream (response described as "Server-sent events stream")', 'POST /v1/chat/completions (OpenAI-compatible; stream flag not declared in the body schema)']
+webhooks:
+  outbound: none documented
+  inbound: >-
+    Workflows accept a "Webhook" trigger node ("Start the workflow ... via HTTP call", docs.html
+    s6) and the WhatsApp channel is configured "via webhook" (s11); Paddle and YooKassa payment
+    webhooks land on web.aaaai.me to activate subscriptions (agent-payments.json). No webhook catalog,
+    event list, signing scheme or AsyncAPI is published, so no Webhooks pointer is emitted.
+dry_run_mode:
+  status: none
+  detail: >-
+    No dry-run/test parameter on any operation. The workflow editor's "Test" button ("validate the
+    workflow without executing it", docs.html s6) is a UI affordance with no documented API surface.
+reversibility:
+  grade: documented
+  detail: >-
+    Reversal paths exist for some actions but no reversal WINDOW is stated anywhere, so the grade is
+    documented (0.4), not verified. The Terms (s7) make refunds discretionary: "any refund or
+    cancellation is at our sole discretion. We are under no obligation to provide a refund."
+  write_surfaces:
+  - {action: 'POST /api/goal-jobs (started implicitly by work_until_goal)', reversal: 'POST /api/goal-jobs/{job_id}/stop', window: null, docs: 'openapi/aaaai-me-openapi.json#POST /api/goal-jobs/{job_id}/stop'}
+  - {action: 'POST /api/dev-preview/start', reversal: 'POST /api/dev-preview/stop', window: null, docs: 'openapi/aaaai-me-openapi.json#POST /api/dev-preview/stop'}
+  - {action: 'POST /api/approvals (pending exec approval)', reversal: 'POST /api/approvals/{approval_id}/resolve with approved=false (reject)', window: null, docs: 'openapi/aaaai-me-openapi.json#POST /api/approvals/{approval_id}/resolve'}
+  - {action: 'POST /api/cron/jobs', reversal: 'DELETE /api/cron/jobs/{job_id}', window: null, docs: 'openapi/aaaai-me-openapi.json#DELETE /api/cron/jobs/{job_id}'}
+  - {action: 'POST /api/chats', reversal: 'DELETE /api/chats/{chat_id}', window: null, restore: none}
+  - {action: 'POST /api/chats/{chat_id}/attachments', reversal: 'DELETE /api/chats/{chat_id}/attachments/{attachment_id}', window: null, restore: none}
+  - {action: 'POST /api/dynamic-experts/create', reversal: 'DELETE /api/dynamic-experts/{expert_id}', window: null, restore: none}
+  - {action: 'POST /api/experts/add', reversal: 'POST /api/experts/remove', window: null}
+  - {action: 'POST /api/nodes (pairing; not in contract)', reversal: 'DELETE /api/nodes/{node_id} (Unpair node)', window: null}
+  - {action: 'POST /api/auth/login', reversal: 'POST /api/auth/logout', window: null}
+  - {action: 'POST /api/auth/delete-account', reversal: none, window: null, note: 'Irreversible; docs.html s9 "delete your account permanently".'}
+  - {action: 'POST /api/reset ("clear memories and state")', reversal: none, window: null, note: Irreversible.}
+  - {action: 'POST /api/tools/invoke (run_shell_command, write_file, amazon_checkout, browser ...)', reversal: none, window: null, note: 'Executes on the user''s linked agent; destructive commands are routed through the approvals loop (POST /api/approvals) rather than reversed.'}
+  - {action: 'Pro purchase via POST /api/billing/crypto/create (documented in pay.md, not in the contract)', reversal: 'none documented; refunds discretionary per Terms s7', window: null}

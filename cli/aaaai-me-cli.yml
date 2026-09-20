@@ -1,0 +1,47 @@
+generated: '2026-09-19'
+method: searched
+source: https://aaaai.me/downloads.html
+docs: https://aaaai.me/news.html?item=agent-orchestration-release-june-2026
+name: aaaai
+description: >-
+  First-party terminal client — "AAA AI CLI — Run AAA AI from scripts, terminals, and development
+  environments on Apple Silicon or Intel." Shipped as a bare macOS binary from the downloads page;
+  the June 2026 release describes it as an interactive agent TUI. No command reference, man page or
+  --help transcript is published, so the command surface below is limited to what the provider
+  states in prose.
+install:
+- platform: macOS arm64 (Apple Silicon)
+  method: direct download
+  url: https://aaaai.me/downloads/aaaai-macos-arm64
+  http_status: 200
+  content_length: 10971634
+  last_modified: '2026-09-14'
+  steps: ['chmod +x aaaai-macos-arm64', './aaaai-macos-arm64', 'Move the binary into your PATH as aaaai to call it from any project.']
+- platform: macOS amd64 (Intel)
+  method: direct download
+  url: https://aaaai.me/downloads/aaaai-macos-amd64
+- platform: Linux / Windows
+  method: none published for the CLI
+  note: The downloads page offers only macOS CLI builds; Linux/Windows get the "agent package" (see packages/), not the CLI.
+package_managers: none (no Homebrew tap, npm, PyPI or GitHub release found — github.com/aaaai is an empty unrelated account, PyPI "aaaai" is an unrelated project)
+version: null
+version_note: The binary URL is unversioned and no release number is published; the file's Last-Modified is 2026-09-14.
+surface:
+  stated_by_provider:
+  - group: interactive TUI
+    features: [interactive model picker, session/context history tracking, dynamic agent inheritance, visual file diffs, 'approvals loop to review agent operations before execution']
+    source: https://aaaai.me/news.html?item=agent-orchestration-release-june-2026
+  - group: code generation
+    features: ['POST /api/code — "Generate code only (Cursor / CLI / IDE integration)" is the contract route tagged Code: "Code-only generation (Cursor / CLI / IDE)"']
+    source: openapi/aaaai-me-openapi.json
+  - group: approvals
+    features: ['The approvals loop maps to POST /api/approvals ("Create approval (agent when destructive + no TTY). Header: X-Agent-Token."), GET /api/approvals/{approval_id} (agent polling) and POST /api/approvals/{approval_id}/resolve']
+    source: openapi/aaaai-me-openapi.json
+  commands: []
+  commands_note: No subcommand list is published.
+key_flows:
+- name: Review-before-execute
+  description: The TUI queues destructive agent commands as approvals and waits for a human to approve or reject them (the same loop the web Orchestration board exposes).
+related:
+  agent_packages: packages/aaaai-me-packages.yml
+  desktop_apps: [AGI Chat for macOS, AGI Dev IDE for macOS]

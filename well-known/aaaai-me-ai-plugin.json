@@ -1,0 +1,22 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "AAA AI",
+  "name_for_model": "aaa_ai",
+  "description_for_human": "AAA AI — Autonomous Agents Automations. Multi-expert AI platform with Meet voice/video and live AI notes.",
+  "description_for_model": "AAA AI (Autonomous Agents Automations) at https://aaaai.me/ is an enterprise multi-agent platform. Use https://aaaai.me/llms.txt and https://aaaai.me/index.md for product facts. Workspace: https://web.aaaai.me/. Meet: https://web.aaaai.me/meet. Agents may buy Pro via https://aaaai.me/pay.md and https://aaaai.me/.well-known/agent-payments.json.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://web.aaaai.me/apispec_1.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://aaaai.me/favicon.svg",
+  "contact_email": "hello@aaaai.me",
+  "legal_info_url": "https://aaaai.me/terms-and-conditions.html",
+  "homepage": "https://aaaai.me/",
+  "llms_txt": "https://aaaai.me/llms.txt",
+  "agent_catalog": "https://aaaai.me/.well-known/api-catalog",
+  "agent_payments": "https://aaaai.me/.well-known/agent-payments.json"
+}

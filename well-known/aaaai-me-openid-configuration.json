@@ -1,0 +1,15 @@
+{
+  "issuer": "https://web.aaaai.me",
+  "authorization_endpoint": "https://web.aaaai.me/",
+  "token_endpoint": "https://web.aaaai.me/api/auth/login",
+  "registration_endpoint": "https://aaaai.me/register.html",
+  "jwks_uri": "https://web.aaaai.me/.well-known/jwks.json",
+  "response_types_supported": ["code", "id_token", "token"],
+  "subject_types_supported": ["public"],
+  "id_token_signing_alg_values_supported": ["RS256"],
+  "scopes_supported": ["openid", "profile", "email", "offline_access"],
+  "token_endpoint_auth_methods_supported": ["client_secret_post", "client_secret_basic", "none"],
+  "grant_types_supported": ["authorization_code", "refresh_token", "password"],
+  "code_challenge_methods_supported": ["S256"],
+  "service_documentation": "https://aaaai.me/docs.html"
+}

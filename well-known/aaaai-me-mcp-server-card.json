@@ -1,0 +1,36 @@
+{
+  "serverInfo": {
+    "name": "AAA AI Platform",
+    "version": "2026.09",
+    "description": "Multi-expert AI platform with Meet voice/video + live AI notes, 122 integrations, workflows, agent teams, and MCP marketplace. Public site: https://aaaai.me/"
+  },
+  "homepage": "https://aaaai.me/",
+  "transport": {
+    "type": "sse",
+    "url": "https://web.aaaai.me/api/mcp/marketplace"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": true,
+    "integrations": 122,
+    "catalog_actions": 682
+  },
+  "documentation": "https://aaaai.me/docs.html",
+  "authentication": {
+    "type": "oauth2",
+    "authorization_server": "https://aaaai.me/.well-known/oauth-authorization-server",
+    "protected_resource": "https://aaaai.me/.well-known/oauth-protected-resource"
+  },
+  "related": {
+    "website": "https://aaaai.me/",
+    "llms_txt": "https://aaaai.me/llms.txt",
+    "ai_txt": "https://aaaai.me/ai.txt",
+    "agent_card": "https://aaaai.me/.well-known/agent.json",
+    "api_catalog": "https://aaaai.me/.well-known/api-catalog",
+    "agent_payments": "https://aaaai.me/.well-known/agent-payments.json",
+    "agent_skills": "https://aaaai.me/.well-known/agent-skills/index.json",
+    "meet": "https://web.aaaai.me/meet",
+    "platform": "https://web.aaaai.me/"
+  }
+}

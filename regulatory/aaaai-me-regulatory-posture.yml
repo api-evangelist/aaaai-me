@@ -1,0 +1,94 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: https://aaaai.me/privacy.html
+hunt:
+  artifacts_read: [well-known/aaaai-me-well-known.yml, security/aaaai-me-domain-security.yml, lifecycle/aaaai-me-lifecycle.yml, conformance/aaaai-me-conformance.yml]
+  paths_probed:
+  - {url: https://aaaai.me/accessibility, status: 403}
+  - {url: https://aaaai.me/legal/subprocessors, status: 403}
+  - {url: https://aaaai.me/legal/dpa, status: 403}
+  - {url: https://aaaai.me/transparency, status: 403}
+  - {url: https://aaaai.me/trust, status: 403}
+  - {url: https://aaaai.me/security, status: 403}
+  - {url: https://aaaai.me/.well-known/security.txt, status: 403}
+  - {url: https://aaaai.me/privacy.html, status: 200}
+  - {url: https://aaaai.me/terms-and-conditions.html, status: 200}
+  - {url: https://aaaai.me/docs.html, status: 200}
+  - {url: https://web.aaaai.me/meet, status: 200}
+  - {url: https://aaaai.me/ai.txt, status: 200}
+  note: >-
+    aaaai.me answers every missing key with an S3 AccessDenied 403 (its 404). The privacy policy and
+    terms are dated "February 2025", name the operator as Kirill Pokidov, describe AAA AI as "a
+    proof-of-concept platform and website", and cover the marketing site; the footer places the
+    company in Montenegro. No trust center, DPA, subprocessor list, VPAT, SBOM, transparency report
+    or support-lifetime statement is published. ai.txt / ai.json / robots.txt govern how AI systems
+    may use the SITE's content (ai-train=no) — that is a crawler policy, not a training-data summary
+    for the provider's own models, so training_data_summary is not recorded.
+signals:
+  data_subject_request:
+    url: https://aaaai.me/privacy.html
+    section: '5. Your rights'
+    channel: support@aaaai.me
+    stated_sla: null
+    rights_named: [access, correction, deletion, objection to processing]
+    evidence:
+    - source: https://aaaai.me/privacy.html
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: >-
+        "Depending on where you live, you may have rights to access, correct, or delete personal data
+        we hold, or to object to processing. To exercise these rights or ask questions, contact us at
+        the email below." ... "6. Contact — For privacy-related requests or questions: support@aaaai.me."
+    note: >-
+      A named channel and named rights, no response period and no intake form or API. The docs
+      (docs.html s9 Settings -> Profile) add a self-service path: "You can also delete your account
+      permanently from here", backed by POST /api/auth/delete-account in the contract.
+  ai_transparency:
+    url: https://web.aaaai.me/meet
+    evidence:
+    - source: https://web.aaaai.me/meet
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: >-
+        "With everyone's consent, speech is analyzed live with the default model. After the meeting,
+        notes, plan, and action items are prepared automatically. Recordings stay with this
+        conversation." ... "AI notes can make mistakes. Check the record"
+    - source: https://aaaai.me/docs.html
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: '"Captions & transcript — speech is transcribed live and feeds the AI notes pipeline."'
+    note: >-
+      An in-product disclosure, at the point of use, that call speech is processed by an AI model
+      (with a consent condition) and that the output is AI-generated and fallible. Recorded as the
+      substance of an AI-interaction/AI-output transparency notice; it is a product page, not a
+      policy or an Article 50-style statement, and no dedicated /ai or /ai/transparency page exists
+      (403).
+  exit_assistance:
+    url: https://aaaai.me/docs.html
+    scope: per-conversation export in the UI; no bulk export or export API documented
+    evidence:
+    - source: https://aaaai.me/docs.html
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: '"Chat history — All conversations are saved automatically. ... You can rename, export, or delete any conversation."'
+    - source: https://aaaai.me/index.md
+      http_status: 200
+      fetched: '2026-09-19'
+      quote: '"Portable context — Carry memory and policy across models instead of locking them inside one vendor." and "Deployment: SaaS at web.aaaai.me or self-host (Docker / Terraform / AWS)"'
+    note: >-
+      Thin: a documented per-chat export and a self-host option are the only published exit paths.
+      No data-export endpoint appears in the contract and no switching/termination assistance terms
+      are published (Terms s2 reserve the right to discontinue "without notice").
+absent:
+  sbom: not published
+  support_lifetime: not published (Terms s2 disclaim continuity)
+  accessibility_conformance: not published (/accessibility 403)
+  training_data_summary: not published (ai.txt covers site crawling, not model training data)
+  global_privacy_control: no statement (not tested by header, per rule)
+  subprocessors: not published ("Google Analytics (or similar)" is the only named third party; no dated table)
+  data_residency: not published (self-host is offered but no residency documentation)
+  incident_notification: not published
+  age_assurance: not published
+  notice_and_action: not published
+  transparency_report: not published

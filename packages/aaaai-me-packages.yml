@@ -1,0 +1,79 @@
+generated: '2026-09-19'
+method: searched
+source: https://aaaai.me/downloads.html
+note: >-
+  AAA AI ships no client SDK on any public registry. Searched 2026-09-19: registry.npmjs.org/aaaai
+  404, @aaaai/cli 404, npm search "aaaai" returns unrelated packages; pypi.org/pypi/aaaai/json is an
+  unrelated project ("All Agent And AI", author Mahdi Nouri); github.com/aaaai is an empty account
+  created 2017 with no repos and github.com/aaaai-me is a 404; no Maven, NuGet, Go, RubyGems,
+  Packagist or crates.io hit. What the provider does distribute are native binaries by direct
+  download — a CLI, two macOS apps, per-machine "agent" packages — and an iOS app. None is a
+  library, so no SDKs pointer is emitted (sdk_count 0). The API is OpenAI-compatible on
+  /v1/chat/completions and /v1/models, so a generic OpenAI client works against
+  https://web.aaaai.me/v1 without a first-party SDK.
+packages:
+- name: aaaai (CLI, macOS arm64)
+  kind: cli-binary
+  language: unknown (compiled binary)
+  registry: direct-download
+  url: https://aaaai.me/downloads/aaaai-macos-arm64
+  install: 'chmod +x aaaai-macos-arm64 && ./aaaai-macos-arm64'
+  official: true
+  version: null
+  published: '2026-09-14'
+  version_note: Unversioned URL; version unknown. published is the file's Last-Modified header (10,971,634 bytes).
+- name: aaaai (CLI, macOS amd64)
+  kind: cli-binary
+  language: unknown (compiled binary)
+  registry: direct-download
+  url: https://aaaai.me/downloads/aaaai-macos-amd64
+  install: 'chmod +x aaaai-macos-amd64 && ./aaaai-macos-amd64'
+  official: true
+  version: null
+  published: null
+  version_note: Unversioned URL; not fetched.
+- name: agi-agent (agent package, macOS DMG)
+  kind: desktop-agent
+  registry: direct-download
+  url: https://web.aaaai.me/api/packages/download/agi-agent-0.1.0.dmg
+  official: true
+  version: 0.1.0
+  published: null
+  version_note: Version read from the filename; no release date is published. Served by the API host.
+- name: agi-agent (agent package, macOS PKG)
+  kind: desktop-agent
+  registry: direct-download
+  url: https://web.aaaai.me/api/packages/download/agi-agent-0.1.0.pkg
+  http_status: 200
+  content_length: 68465
+  official: true
+  version: 0.1.0
+  published: null
+  version_note: Version read from the filename. The docs say DEB and EXE agent packages exist under Settings -> Agent Packages (behind login); none is linked publicly.
+- name: AGI Chat for macOS
+  kind: desktop-app
+  registry: direct-download
+  url: https://aaaai.me/downloads/AGIChatMac-macos.dmg
+  official: true
+  version: null
+  published: null
+  version_note: Unversioned URL.
+- name: AGI Dev (IDE) for macOS
+  kind: desktop-app
+  registry: direct-download
+  url: https://aaaai.me/downloads/AGIDevMac-macos.dmg
+  official: true
+  version: null
+  published: null
+  version_note: Unversioned URL.
+- name: AAA AI (iOS / iPadOS)
+  kind: mobile-app
+  registry: app-store
+  url: https://apps.apple.com/me/app/aaa-ai/id6759051146
+  http_status: 200
+  official: true
+  publisher: Kirill Pokidov (App Store developer name)
+  version: null
+  published: null
+  version_note: App Store version not read (JS-rendered page); the listing title is "AAA AI App".
+sdk_count: 0

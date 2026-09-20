@@ -1,0 +1,46 @@
+generated: '2026-09-19'
+method: searched
+source: https://aaaai.me/news/feed.xml
+docs: https://aaaai.me/news.html
+scheme: dated releases (news feed + monthly "Release cadence" on the pitch page); API contract versioned separately as info.version 1.1.0
+current_version: '1.1.0 (Swagger info.version); platform "2026.09" (MCP server card)'
+feeds:
+- {type: rss, url: https://aaaai.me/news/feed.xml, title: AAA AI News, last_build: '2026-09-19'}
+- {type: rss, url: https://aaaai.me/blog/feed.xml, title: AAA AI Blog, note: 'industry commentary, not release notes'}
+note: >-
+  AAA AI publishes no API changelog. The news feed carries dated product releases (two items as of
+  2026-09-19) and the investor pitch page carries a "Release cadence — What's new since March"
+  timeline through September 2026; both are product-level, not contract-level, and no entry marks a
+  breaking change to the API. The window below is everything published.
+entries:
+- date: '2026-09'
+  title: 'Meet — voice & video calling'
+  source: https://aaaai.me/pitch.html#updates
+  breaking: false
+  additions:
+  - Real-time meetings at /meet with live AI notes (summary, working plan, decisions, action items)
+  - Optional vision during calls; post-call consolidation into the conversation
+  - Recordings stored to object storage (S3, MinIO or local per deployment)
+- date: '2026-06-19'
+  title: 'AAA AI Platform Scaling: Unified CLI, Orchestration Task Board, and Mobile Offline Mode'
+  source: https://aaaai.me/news.html?item=agent-orchestration-release-june-2026
+  breaking: false
+  additions:
+  - Unified CLI agent TUI — interactive model picker, session/context history, dynamic agent inheritance, visual file diffs, approvals loop before execution
+  - Web Orchestration Task Board integrated into the orchestrator dashboard
+  - Offline local LLMs (Llama.cpp, MLX) on iOS/macOS; Face ID/Touch ID and Keychain storage
+- date: '2026-05-11'
+  title: 'AAA AI supported by AWS Startups and awarded AWS credits'
+  source: https://aaaai.me/news.html?item=aws-startups-credits-may-2026
+  breaking: false
+  additions: [AWS Startups program acceptance; credits applied to infrastructure, testing and product delivery]
+- date: '2026-04'
+  title: 'Notes & capture'
+  source: https://aaaai.me/pitch.html#updates
+  breaking: false
+  additions: [Voice recording UX with animated orb, calendar week/day filtering, notes parity between iOS and macOS Chat]
+- date: '2026-04'
+  title: 'Chat & experts refresh'
+  source: https://aaaai.me/pitch.html#updates
+  breaking: false
+  additions: [Live voice sessions, smoother expert switching, in-thread web search with optional LLM verification]

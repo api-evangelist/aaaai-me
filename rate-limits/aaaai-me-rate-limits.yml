@@ -1,0 +1,18 @@
+generated: '2026-09-19'
+method: searched
+source: https://aaaai.me/docs.html
+limit_count: 0
+note: >-
+  No API rate limits are published. Searched 2026-09-19: docs.html, auth.md, pay.md, developer-ai.txt,
+  the Swagger contract (no 429 response declared on any of 102 operations) and the live
+  unauthenticated 400/401/404/405 responses from web.aaaai.me, none of which carried a RateLimit-*,
+  X-RateLimit-* or Retry-After header. The only limit-shaped text in the docs concerns the user's OWN
+  upstream LLM keys, not this API: "Store your own LLM API keys (OpenAI, Claude, Gemini, etc.) securely
+  with encryption. Set token usage limits per key with reset periods (hourly, daily, weekly, monthly)
+  and monitor usage history" (docs.html s9). Those are self-imposed spend caps on third-party
+  providers configured inside the product.
+limits: []
+headers:
+  observed: []
+  documented: []
+status_on_exhaustion: null

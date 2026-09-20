@@ -64,5 +64,20 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-AAA AI is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
-- https://aaaai.me/
+AAA AI (Autonomous Agents Automations; product spelling AAAAI) is a Montenegro-based multi-agent AI platform: a workspace at web.aaaai.me that routes questions through a panel of expert models, runs visual workflows with human-approval nodes, pairs desktop agents on a user's own machines, and adds Meet — voice and video calls with live AI notes. Sold as a $20/month Pro cloud plan or self-hosted.
+
+What this profile found (2026-09-19):
+
+- **Contract** — a real Swagger 2.0 document, "AAAAI API" 1.1.0, 102 operations, at `https://web.aaaai.me/api/spec.json` (the URL the Flasgger UI at `/apidocs` loads). Every provider discovery file names `/apispec_1.json` instead, which is a 404. Saved verbatim in `openapi/`.
+- **Discovery layer** — aaaai.me serves an RFC 9727 api-catalog, OAuth 2.0 / OpenID / RFC 9728 metadata, ai-plugin.json, an MCP server card, an agentskills.io index, agent-payments.json, llms.txt and the ai-visibility.org.uk file set. Several targets do not exist: the MCP transport URL is a GET-only catalog of third-party stdio servers (POST tools/list -> 405), `/api/mcp` is a 404, and the declared JWKS is a 404. Details in `well-known/`, `mcp/`, `conformance/`.
+- **Not an A2A card** — `/.well-known/agent.json` (how this company reached the harvest via a2aregistry.org) is a site manifest with name, url and links only; it fails the AgentCard shape test, so no `a2a/` artifact exists here.
+- **Agent commerce** — a documented crypto checkout API lets an agent buy Pro for a workspace email; see `plans/` and `skills/aaaai-me-buy-pro-as-agent.md`.
+
+Links:
+
+- Website: https://aaaai.me/
+- Workspace / API host: https://web.aaaai.me/
+- API reference (Swagger UI): https://web.aaaai.me/apidocs
+- Docs: https://aaaai.me/docs.html
+- Agent auth guide: https://aaaai.me/auth.md
+- Pricing: https://aaaai.me/pay/

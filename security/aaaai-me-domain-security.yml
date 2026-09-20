@@ -1,0 +1,21 @@
+generated: '2026-09-19'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: aaaai.me
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Mar  7 23:59:59 2027 GMT
+  hsts: false
+- host: web.aaaai.me
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Mar  6 23:59:59 2027 GMT
+  hsts: false
+domains:
+- domain: aaaai.me
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none

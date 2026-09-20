@@ -1,0 +1,110 @@
+{
+  "$schema": "https://aaaai.me/.well-known/agent-payments.schema.json",
+  "version": "1.0",
+  "updated": "2026-09-18",
+  "merchant": {
+    "name": "AAA AI",
+    "legal_name": "AAA AI",
+    "url": "https://aaaai.me/",
+    "support_email": "support@aaaai.me",
+    "sales_email": "hello@aaaai.me",
+    "platform_url": "https://web.aaaai.me/"
+  },
+  "products": [
+    {
+      "id": "aaaai-pro-cloud",
+      "name": "AAA AI Pro (cloud)",
+      "description": "Monthly Pro cloud subscription: multi-expert agents, Meet voice/video with live AI notes, workflows, integrations, memory, and cloud LLMs.",
+      "url": "https://aaaai.me/pay/",
+      "agent_guide": "https://aaaai.me/pay.md",
+      "register_url": "https://aaaai.me/register.html",
+      "billing_period": "P1M",
+      "currency_prices": [
+        { "currency": "USD", "amount": "20.00", "amount_minor": 2000 },
+        { "currency": "EUR", "amount": "20.00", "amount_minor": 2000 },
+        { "currency": "GBP", "amount": "20.00", "amount_minor": 2000 },
+        { "currency": "RUB", "amount": "1500.00", "amount_minor": 150000, "method": "sbp", "note": "Russia Faster Payments (SBP) / YooKassa" }
+      ],
+      "includes": [
+        "Cloud LLM access",
+        "Meet voice & video with live AI notes",
+        "Agent teams, workflows, memory",
+        "Integrations catalog"
+      ],
+      "checkout_methods": [
+        {
+          "id": "crypto",
+          "label": "Cryptocurrency (preferred for autonomous agents)",
+          "agent_automatable": true,
+          "currencies": ["USDT", "ETH", "BTC"],
+          "steps": [
+            "Ensure a registered workspace email exists (POST /api/auth/register or https://aaaai.me/register.html).",
+            "GET https://web.aaaai.me/api/billing/crypto/config — confirm enabled currencies and prices.",
+            "POST https://web.aaaai.me/api/billing/crypto/create with JSON {\"email\":\"user@example.com\",\"currency\":\"USDT\"}.",
+            "Pay exactly amount to returned address.",
+            "Poll GET https://web.aaaai.me/api/billing/crypto/status/{address}?status_token={status_token} until status=confirmed and subscription is applied."
+          ],
+          "endpoints": {
+            "config": "https://web.aaaai.me/api/billing/crypto/config",
+            "create": "https://web.aaaai.me/api/billing/crypto/create",
+            "status_template": "https://web.aaaai.me/api/billing/crypto/status/{address}?status_token={status_token}"
+          },
+          "example_create": {
+            "method": "POST",
+            "url": "https://web.aaaai.me/api/billing/crypto/create",
+            "headers": { "Content-Type": "application/json" },
+            "body": { "email": "agent-owner@example.com", "currency": "USDT" }
+          }
+        },
+        {
+          "id": "paddle_card",
+          "label": "Card checkout via Paddle (browser)",
+          "agent_automatable": "assisted",
+          "steps": [
+            "Open https://aaaai.me/pay/?email={account_email} (pre-fills Paddle customer email).",
+            "Complete Paddle hosted checkout in a browser or agent browser tool.",
+            "Paddle webhook on web.aaaai.me activates the subscription for that email."
+          ],
+          "checkout_url_template": "https://aaaai.me/pay/?email={account_email}",
+          "human_checkout_url": "https://aaaai.me/pay/"
+        },
+        {
+          "id": "yookassa_sbp",
+          "label": "SBP / YooKassa (Russia)",
+          "enabled": true,
+          "agent_automatable": "assisted",
+          "steps": [
+            "User must be logged in to https://web.aaaai.me/",
+            "GET https://web.aaaai.me/api/billing/yookassa/config",
+            "POST https://web.aaaai.me/api/billing/yookassa/create-sbp with return_url and payer_phone",
+            "Complete bank SBP payment, then poll payment-status"
+          ],
+          "endpoints": {
+            "config": "https://web.aaaai.me/api/billing/yookassa/config",
+            "create": "https://web.aaaai.me/api/billing/yookassa/create-sbp",
+            "status_template": "https://web.aaaai.me/api/billing/yookassa/payment-status/{payment_id}"
+          },
+          "checkout_url": "https://aaaai.me/pay/?sbp=1"
+        }
+      ]
+    }
+  ],
+  "access_gate": {
+    "description": "Unauthenticated or unpaid API/UI calls may return HTTP 403 with subscribe_url.",
+    "subscribe_url": "https://aaaai.me/pay/",
+    "subscribe_url_with_email_template": "https://aaaai.me/pay/?email={account_email}"
+  },
+  "discovery": {
+    "llms_txt": "https://aaaai.me/llms.txt",
+    "pay_markdown": "https://aaaai.me/pay.md",
+    "api_catalog": "https://aaaai.me/.well-known/api-catalog",
+    "auth": "https://aaaai.me/auth.md",
+    "openapi": "https://web.aaaai.me/apispec_1.json"
+  },
+  "policy": {
+    "ai_agents_may_purchase": true,
+    "preferred_agent_method": "crypto",
+    "require_registered_email": true,
+    "notes": "Agents SHOULD attach the workspace email on every checkout so the paid license binds to the correct account. Prefer USDT crypto create+poll for fully automated purchase. For Russia, use SBP / YooKassa."
+  }
+}

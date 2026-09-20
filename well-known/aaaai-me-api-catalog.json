@@ -1,0 +1,44 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://web.aaaai.me/api",
+      "service-desc": [
+        {
+          "href": "https://web.aaaai.me/apispec_1.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://web.aaaai.me/apidocs",
+          "type": "text/html"
+        },
+        {
+          "href": "https://aaaai.me/docs.html",
+          "type": "text/html"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://web.aaaai.me/api/health",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://web.aaaai.me/api/mcp",
+      "service-desc": [
+        {
+          "href": "https://aaaai.me/.well-known/mcp/server-card.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://web.aaaai.me/apidocs",
+          "type": "text/html"
+        }
+      ]
+    }
+  ]
+}

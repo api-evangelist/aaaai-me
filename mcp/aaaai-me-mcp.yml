@@ -1,0 +1,121 @@
+generated: '2026-09-19'
+method: probed
+status: candidate
+source: https://aaaai.me/.well-known/mcp/server-card.json
+docs: https://aaaai.me/docs.html#mcp-marketplace
+summary: >-
+  AAA AI publishes an MCP "server card" at https://aaaai.me/.well-known/mcp/server-card.json
+  (serverInfo "AAA AI Platform" 2026.09; capabilities tools/resources/prompts true; "122 integrations",
+  "682 catalog_actions"; authentication oauth2 pointing at the RFC 8414/9728 documents on aaaai.me) whose
+  transport is declared as {type: sse, url: https://web.aaaai.me/api/mcp/marketplace}. Probed
+  2026-09-19, that URL is NOT an MCP endpoint: a GET returns HTTP 200 application/json with a "catalog"
+  of 17 third-party stdio MCP servers the platform lets a user enable (filesystem, fetch, git, time,
+  memory, brave-search, mcp-docs, sequential-thinking, slack, github, postgres, sqlite, google-maps,
+  puppeteer, google-drive, notion, redis — each an npx/uvx command from @modelcontextprotocol,
+  @brave or @notionhq), and a POST of {"jsonrpc":"2.0","id":1,"method":"tools/list"} with Accept
+  application/json, text/event-stream returns HTTP 405 Method Not Allowed. The api-catalog's MCP anchor
+  https://web.aaaai.me/api/mcp is a 404 (GET and POST). No SSE stream, no initialize, no tools/list.
+  AAA AI is therefore an MCP HOST/CLIENT (its workspace and workflow "MCP Tool" node consume MCP
+  servers) and publishes no MCP server of its own that an agent can connect to. The Swagger contract
+  exposes the marketplace configuration through GET/PUT /api/settings/mcp-platforms.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: probed
+  note: >-
+    mode is none because nothing answers MCP JSON-RPC: the declared SSE URL is a GET-only catalog
+    (POST -> 405) and the api-catalog anchor is a 404. The server card's oauth2 block references real
+    discovery documents on aaaai.me, but with no server to authorize against auth is recorded as
+    unknown rather than oauth. If AAA AI ships an endpoint at either URL this record should be
+    re-probed; do not treat the server card alone as a reachable agent surface.
+server_card:
+  url: https://aaaai.me/.well-known/mcp/server-card.json
+  http_status: 200
+  file: ../well-known/aaaai-me-mcp-server-card.json
+  server_info: {name: AAA AI Platform, version: '2026.09'}
+  declared_transport: {type: sse, url: https://web.aaaai.me/api/mcp/marketplace}
+  declared_capabilities: {tools: true, resources: true, prompts: true, integrations: 122, catalog_actions: 682}
+  declared_authentication:
+    type: oauth2
+    authorization_server: https://aaaai.me/.well-known/oauth-authorization-server
+    protected_resource: https://aaaai.me/.well-known/oauth-protected-resource
+probe:
+  fetched: '2026-09-19'
+  requests:
+  - url: https://web.aaaai.me/api/mcp/marketplace
+    method: GET
+    http_status: 200
+    content_type: application/json
+    bytes: 5490
+    file: aaaai-me-mcp-marketplace.json
+    note: '{"catalog":[17 entries],"status":"success"}. A catalog of third-party servers, not an MCP session.'
+  - url: https://web.aaaai.me/api/mcp/marketplace
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 405
+    response: '{"message":"405 Method Not Allowed: The method is not allowed for the requested URL.","status":"error"}'
+  - url: https://web.aaaai.me/api/mcp
+    method: GET
+    http_status: 404
+  - url: https://web.aaaai.me/api/mcp
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 404
+    response: '{"message":"Resource not found","status":"error"}'
+  - url: https://web.aaaai.me/api/mcp
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18",...}}'
+    http_status: 404
+  - url: https://web.aaaai.me/mcp
+    method: GET
+    http_status: 404
+  - url: https://mcp.aaaai.me/
+    result: no DNS
+marketplace_catalog:
+  url: https://web.aaaai.me/api/mcp/marketplace
+  file: aaaai-me-mcp-marketplace.json
+  entries: 17
+  ownership: third-party (Anthropic reference servers, Brave, Notion) — none is authored by AAA AI
+  servers: [filesystem, fetch, git, time, memory, brave-search, mcp-docs, sequential-thinking, slack, github, postgres, sqlite, google-maps, puppeteer, google-drive, notion, redis]
+  platforms_field: per-entry list drawn from [chatgpt, claude, gemini, default] — the platform profiles GET /api/settings/mcp-platforms returns
+candidate_tools:
+  note: >-
+    DERIVED candidate tool surface from openapi/aaaai-me-openapi.json for the case where AAA AI wraps
+    its own REST API as an MCP server. The Swagger declares no operationId on any of its 102
+    operations, so each candidate is named from method + path and points at the path. This is a
+    proposal, not a published server; nothing here is callable over MCP today. The operations chosen
+    are the agent-facing ones: query/streaming, approvals, scheduled jobs, background goals, the
+    Deep Agent and single-tool invocation.
+  server: {name: aaaai-platform, transport: http, url: null}
+  tools:
+  - {name: ask, description: Simple ask (single question), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/ask'}
+  - {name: query, description: Process a query, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/query'}
+  - {name: query_stream, description: Process query with streaming response (SSE), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/query/stream'}
+  - {name: chat_completions, description: Chat completions (OpenAI-compatible), source_operation: 'openapi/aaaai-me-openapi.json#POST /v1/chat/completions'}
+  - {name: list_models, description: List models (OpenAI-compatible), source_operation: 'openapi/aaaai-me-openapi.json#GET /v1/models'}
+  - {name: generate_code, description: Generate code only (Cursor / CLI / IDE integration), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/code'}
+  - {name: list_chats, description: List chats, source_operation: 'openapi/aaaai-me-openapi.json#GET /api/chats'}
+  - {name: create_chat, description: Create chat, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/chats'}
+  - {name: post_chat_message, description: Post message to chat (query with optional attachments), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/chats/{chat_id}/messages'}
+  - {name: upload_attachment, description: Upload attachment, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/chats/{chat_id}/attachments'}
+  - {name: list_approvals, description: List exec approvals (pending destructive commands), source_operation: 'openapi/aaaai-me-openapi.json#GET /api/approvals'}
+  - {name: create_approval, description: 'Create approval (agent when destructive + no TTY). Header: X-Agent-Token.', source_operation: 'openapi/aaaai-me-openapi.json#POST /api/approvals'}
+  - {name: get_approval, description: Get approval status (agent polling), source_operation: 'openapi/aaaai-me-openapi.json#GET /api/approvals/{approval_id}'}
+  - {name: resolve_approval, description: Resolve approval (approve/reject), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/approvals/{approval_id}/resolve'}
+  - {name: list_cron_jobs, description: List scheduled cron jobs, source_operation: 'openapi/aaaai-me-openapi.json#GET /api/cron/jobs'}
+  - {name: create_cron_job, description: Create cron job, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/cron/jobs'}
+  - {name: trigger_cron_job, description: Run cron job now, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/cron/jobs/{job_id}/trigger'}
+  - {name: delete_cron_job, description: Delete cron job, source_operation: 'openapi/aaaai-me-openapi.json#DELETE /api/cron/jobs/{job_id}'}
+  - {name: list_goal_jobs, description: List background goal jobs for the current user, source_operation: 'openapi/aaaai-me-openapi.json#GET /api/goal-jobs'}
+  - {name: get_goal_job, description: Get background goal job status, source_operation: 'openapi/aaaai-me-openapi.json#GET /api/goal-jobs/{job_id}'}
+  - {name: stop_goal_job, description: Stop a background goal job, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/goal-jobs/{job_id}/stop'}
+  - {name: deep_agent_run, description: Run a task through the Deep Agent (one-shot), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/deep-agent/run'}
+  - {name: deep_agent_chat, description: Chat with the Deep Agent (multi-turn, session-based), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/deep-agent/chat'}
+  - {name: invoke_tool, description: Invoke a single agent tool on the user's linked/remote agent, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/tools/invoke'}
+  - {name: list_nodes, description: List connected nodes (agents/devices), source_operation: 'openapi/aaaai-me-openapi.json#GET /api/nodes'}
+  - {name: get_memories, description: Get recent memories, source_operation: 'openapi/aaaai-me-openapi.json#GET /api/memories'}
+  - {name: transcribe_audio, description: Transcribe audio (speech-to-text), source_operation: 'openapi/aaaai-me-openapi.json#POST /api/audio/transcribe'}
+  - {name: generate_speech, description: Generate speech audio from text, source_operation: 'openapi/aaaai-me-openapi.json#POST /api/audio/speech'}

@@ -1,0 +1,84 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the AAAAI API (AAA AI)
+  version: 1.0.0
+  description: >-
+    Applies API Evangelist provenance and the corrections this profile could ground in the provider's
+    own published material to openapi/aaaai-me-openapi.json (Swagger 2.0, fetched verbatim from
+    https://web.aaaai.me/api/spec.json on 2026-09-19). The original is never mutated. Every
+    enhancement below cites where the value came from; nothing is invented. Generated 2026-09-19,
+    method: generated.
+extends: openapi/aaaai-me-openapi.json
+actions:
+- target: $.info
+  description: Provenance, contact, terms and the discovery documents the provider publishes (agent.json, ai-plugin.json, api-catalog). Contact and terms are the provider's own (ai-plugin.json contact_email / legal_info_url).
+  update:
+    x-apievangelist-source: https://web.aaaai.me/api/spec.json
+    x-apievangelist-fetched: '2026-09-19'
+    x-apievangelist-profile: https://github.com/api-evangelist/aaaai-me
+    x-apievangelist-note: >-
+      The provider's discovery documents (/.well-known/agent.json, /.well-known/ai-plugin.json,
+      /.well-known/api-catalog, /.well-known/agent-payments.json, /developer-ai.txt) all name
+      https://web.aaaai.me/apispec_1.json as the OpenAPI; that URL is a 404. This document is the one
+      the Flasgger UI at https://web.aaaai.me/apidocs loads.
+    contact:
+      name: AAA AI
+      email: hello@aaaai.me
+      url: https://aaaai.me/
+    termsOfService: https://aaaai.me/terms-and-conditions.html
+    x-logo:
+      url: https://aaaai.me/og-image.png
+- target: $
+  description: External documentation — the human docs and the agent auth guide.
+  update:
+    externalDocs:
+      description: AAA AI documentation (user guide) and agent authentication guide
+      url: https://aaaai.me/docs.html
+    x-agent-auth-guide: https://aaaai.me/auth.md
+- target: $.tags
+  description: >-
+    Declare the five tags operations use but the top-level tags[] omits (Approvals, Cron, Deep Agent,
+    Agents, Nodes). Descriptions are taken from the operations' own summaries.
+  update:
+  - {name: Approvals, description: 'Exec approvals for destructive agent commands (create, poll, resolve)'}
+  - {name: Cron, description: 'Scheduled cron jobs (OpenClaw-style)'}
+  - {name: Deep Agent, description: 'One-shot and multi-turn Deep Agent runs and status'}
+  - {name: Agents, description: 'Background goal jobs for the current user'}
+  - {name: Nodes, description: 'Connected nodes (agents/devices) and unpairing'}
+- target: $
+  description: >-
+    Apply the contract's own ApiKeyAuth (X-User-Login header) globally. The Swagger defines the scheme
+    but applies it to no operation; the live 401 from GET /api/status reads "Authentication required.
+    Please login or provide X-User-Login header." Routes probed anonymous are exempted below.
+  update:
+    security:
+    - ApiKeyAuth: []
+- target: $.paths['/api/health'].get
+  description: Anonymous — answered 200 without credentials on 2026-09-19.
+  update:
+    security: []
+- target: $.paths['/api/auth/login'].post
+  description: Anonymous by nature (credential exchange); a bare POST answered 400 "Login and password required", not 401.
+  update:
+    security: []
+- target: $.paths['/api/auth/register'].post
+  description: Anonymous by nature (account creation; auth.md "Users register at ...").
+  update:
+    security: []
+- target: $.paths['/api/auth/apple'].post
+  description: Anonymous by nature (Sign in with Apple token exchange).
+  update:
+    security: []
+- target: $.paths['/api/query/stream'].post
+  description: The 200 is a Server-Sent Events stream per the spec's own description; declare the media type.
+  update:
+    produces: [text/event-stream]
+- target: $.paths['/api/approvals'].post
+  description: The summary names an X-Agent-Token header that the parameters do not declare; add it as a documented header parameter.
+  update:
+    parameters:
+    - name: X-Agent-Token
+      in: header
+      type: string
+      required: false
+      description: Agent token identifying the calling agent (named in the operation summary; format not published).

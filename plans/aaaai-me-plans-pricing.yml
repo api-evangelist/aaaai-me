@@ -1,0 +1,46 @@
+generated: '2026-09-19'
+method: probed
+source: https://aaaai.me/.well-known/agent-payments.json
+docs: https://aaaai.me/pay/
+plan_count: 1
+note: >-
+  One published plan, read from the provider's machine-readable agent-payments catalog (version 1.0,
+  updated 2026-09-18) and cross-checked against the human pricing page https://aaaai.me/pay/, the
+  agent playbook https://aaaai.me/pay.md and the offer JSON https://aaaai.me/pay/agent.json. No free
+  tier is described (registration is free but "Unauthenticated or unpaid API/UI calls may return HTTP
+  403 with subscribe_url"), no usage quotas or overage are published, and enterprise/partnership
+  access is "contact hello@aaaai.me" with no price. Self-hosting is offered with no stated price.
+plans:
+- id: aaaai-pro-cloud
+  name: AAA AI Pro (cloud)
+  price: 20.00
+  currency: USD
+  billing_period: month
+  other_prices:
+  - {currency: EUR, price: 20.00}
+  - {currency: GBP, price: 20.00}
+  - {currency: RUB, price: 1500.00, method: 'SBP / YooKassa (Russia)', note: 'per user per month; YooKassa config endpoint reports enabled: false as of 2026-09-19'}
+  - {currency: USDT, price: 20.0, method: crypto}
+  - {currency: ETH, price: 0.006, method: crypto}
+  - {currency: BTC, price: 0.0003, method: crypto}
+  crypto_prices_source: https://web.aaaai.me/api/billing/crypto/config (200, anonymous, 2026-09-19)
+  included_quota: null
+  overage: null
+  includes:
+  - Cloud LLM access
+  - Meet voice & video with live AI notes
+  - Agent teams, workflows, memory
+  - Integrations catalog
+  limits: none published
+  checkout:
+  - {method: crypto, agent_automatable: true, endpoints: ['GET https://web.aaaai.me/api/billing/crypto/config', 'POST https://web.aaaai.me/api/billing/crypto/create', 'GET https://web.aaaai.me/api/billing/crypto/status/{address}?status_token={status_token}']}
+  - {method: card (Paddle hosted checkout), agent_automatable: assisted, url: 'https://aaaai.me/pay/?email={account_email}'}
+  - {method: SBP / YooKassa, agent_automatable: assisted, url: 'https://aaaai.me/pay/?sbp=1', requires: logged-in session}
+  agent_purchase_policy: 'ai_agents_may_purchase: true; preferred_agent_method: crypto; require_registered_email: true'
+  refunds: 'Terms s7 — "any refund or cancellation is at our sole discretion. We are under no obligation to provide a refund."'
+- id: enterprise
+  name: Enterprise / partnership access
+  price: null
+  currency: null
+  billing_period: null
+  note: '"For partnership or enterprise agent access, contact hello@aaaai.me" (auth.md). Not counted in plan_count — no price or terms are published.'

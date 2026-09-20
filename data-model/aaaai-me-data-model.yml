@@ -1,0 +1,45 @@
+generated: '2026-09-19'
+method: derived
+source: openapi/aaaai-me-openapi.json
+note: >-
+  The Swagger document has an EMPTY definitions block and no response schemas, so there are no $ref
+  links to walk. Entities and relationships below are derived from path nesting (/api/chats/{chat_id}/
+  attachments/{attachment_id}), path parameters (chat_id, attachment_id, approval_id, job_id,
+  expert_id, session_id, node_id) and id-bearing request-body fields (chat_id, agent_id, expert_id,
+  session_id). Field types are as declared in the body schemas; nothing about response shapes is
+  asserted. No object reference page is published; id formats are unknown except chat_id, which the
+  contract types as integer.
+entities:
+- {name: User, id_field: null, notes: 'Current user via GET /api/user/current; avatar and ui-preferences sub-resources; identified by X-User-Login header / session cookie.'}
+- {name: Chat, id_field: chat_id, id_type: integer, operations: ['GET /api/chats', 'POST /api/chats', 'GET/PUT/DELETE /api/chats/{chat_id}']}
+- {name: Message, id_field: null, notes: 'Created by POST /api/chats/{chat_id}/messages (body: query, conversation_history[], human_like, image); no read/list/delete operation of its own.'}
+- {name: Attachment, id_field: attachment_id, operations: ['GET/POST/DELETE /api/chats/{chat_id}/attachments', 'DELETE /api/chats/{chat_id}/attachments/{attachment_id}']}
+- {name: VideoSession, id_field: session_id, operations: ['GET /api/video-sessions', 'GET/DELETE /api/video-sessions/{session_id}']}
+- {name: Expert, id_field: null, notes: 'Pool members managed by POST /api/experts/add|edit|remove|scale-up|scale-down; fields expert_type, name, provider, model, specialty, focus_areas.'}
+- {name: DynamicExpert, id_field: expert_id, operations: ['POST /api/dynamic-experts/create', 'GET /api/dynamic-experts/list', 'PATCH/DELETE /api/dynamic-experts/{expert_id}']}
+- {name: Approval, id_field: approval_id, operations: ['GET/POST /api/approvals', 'GET /api/approvals/{approval_id}', 'POST /api/approvals/{approval_id}/resolve'], fields: {agent_id: string, command: string, approved: boolean, status: 'enum pending|approved|rejected (query filter)'}}
+- {name: Agent (node), id_field: node_id, notes: 'Connected devices/agents; GET /api/nodes, DELETE /api/nodes/{node_id}; referenced as agent_id on Approval; presents X-Agent-Token.'}
+- {name: CronJob, id_field: job_id, operations: ['GET/POST /api/cron/jobs', 'GET/DELETE /api/cron/jobs/{job_id}', 'POST /api/cron/jobs/{job_id}/trigger'], fields: {label: string, schedule: 'cron expression', request: string, enabled: boolean, work_until_goal: boolean}}
+- {name: GoalJob, id_field: job_id, operations: ['GET /api/goal-jobs', 'GET /api/goal-jobs/{job_id}', 'POST /api/goal-jobs/{job_id}/stop']}
+- {name: DevPreviewSession, id_field: session_id, operations: ['GET /api/dev-preview/sessions', 'POST /api/dev-preview/start|stop|test']}
+- {name: Memory, id_field: null, operations: ['GET /api/memories?limit=']}
+- {name: Settings, id_field: null, notes: 'Singletons per user: platform, voice, video-agent, system-agent, mcp-platforms, expert model settings.'}
+- {name: Model, id_field: null, notes: 'OpenAI-compatible GET /v1/models.'}
+relationships:
+- {from: User, to: Chat, type: has_many, via: 'ownership (X-User-Login / session)'}
+- {from: Chat, to: Message, type: has_many, via: 'path /api/chats/{chat_id}/messages'}
+- {from: Chat, to: Attachment, type: has_many, via: 'path /api/chats/{chat_id}/attachments'}
+- {from: Attachment, to: Chat, type: belongs_to, via: chat_id}
+- {from: Message, to: Chat, type: belongs_to, via: 'chat_id (also a body field on POST /api/query and /api/query/stream)'}
+- {from: User, to: VideoSession, type: has_many, via: ownership}
+- {from: User, to: DynamicExpert, type: has_many, via: ownership}
+- {from: User, to: CronJob, type: has_many, via: ownership}
+- {from: User, to: GoalJob, type: has_many, via: 'ownership ("for the current user")'}
+- {from: CronJob, to: GoalJob, type: has_many, via: 'work_until_goal=true (inferred from field description "Continue with tools and recovery until verified completion"; not stated as a link)'}
+- {from: Approval, to: Agent (node), type: belongs_to, via: agent_id}
+- {from: Agent (node), to: Approval, type: has_many, via: agent_id}
+- {from: User, to: Agent (node), type: has_many, via: 'pairing (DELETE /api/nodes/{node_id} "Unpair node")'}
+- {from: DevPreviewSession, to: Agent (node), type: belongs_to, via: '"on the authenticated user''s linked agent" (summary text)'}
+- {from: User, to: Settings, type: has_one, via: ownership}
+- {from: User, to: Memory, type: has_many, via: ownership}
+render: null

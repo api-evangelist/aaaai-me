@@ -1,0 +1,48 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  openapi/aaaai-me-openapi.json (info.version 1.1.0), https://aaaai.me/news.html + /news/feed.xml
+  (dated releases), https://aaaai.me/pitch.html ("Release cadence" section),
+  https://aaaai.me/terms-and-conditions.html (s2 availability), https://aaaai.me/.well-known/api-catalog
+  (status relation), probed 2026-09-19.
+versioning:
+  scheme: mixed
+  current: '1.1.0'
+  detail: >-
+    The Swagger document is versioned 1.1.0 in info.version. Paths are unversioned under /api/*
+    (79 paths) except the two OpenAI-compatible routes, which sit under /v1/ (/v1/chat/completions,
+    /v1/models). No version header, no date-based versioning and no versioning policy page is
+    published. The MCP server card versions the platform as "2026.09" (calendar), and the pitch page
+    dates releases by month.
+  docs: null
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  note: No deprecation policy, Sunset/Deprecation header support (RFC 8594/9745) or dated retirements are published.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    Terms of Service s2: "We do not guarantee availability of the site or any linked services and may
+    modify, suspend, or discontinue them at any time without notice." No SLA is offered, including
+    on the $20/month Pro plan.
+status_page: null
+status_endpoint:
+  url: https://web.aaaai.me/api/health
+  http_status: 200
+  body: '{"active_users":2,"status":"healthy","system":"AAAAI (Per-User Architecture)"}'
+  note: >-
+    A machine health endpoint listed as the "status" relation in the RFC 9727 api-catalog; it is not a
+    status page (no incident history, no component list, no subscriptions), so no StatusPage pointer
+    is emitted. status.aaaai.me does not resolve.
+release_history:
+  source: https://aaaai.me/news/feed.xml and https://aaaai.me/pitch.html#updates
+  recent:
+  - {date: '2026-09', title: 'Meet — voice & video calling', summary: 'Real-time meetings at /meet with live AI notes (summary, working plan, decisions, actions), optional vision, post-call consolidation.'}
+  - {date: '2026-06-19', title: 'AAA AI Platform Scaling: Unified CLI, Orchestration Task Board, and Mobile Offline Mode', summary: 'CLI agent TUI with approvals loop and file diffs; web orchestration task board; offline local LLMs on iOS/macOS with biometric unlock.'}
+  - {date: '2026-05-11', title: 'AAA AI supported by AWS Startups and awarded AWS credits'}
+  - {date: '2026-04', title: 'Notes & capture', summary: 'Voice recording UX, calendar filtering, iOS/macOS notes parity.'}
+  - {date: '2026-04', title: 'Chat & experts refresh', summary: 'Live voice sessions, expert switching, in-thread web search with optional LLM verification.'}
+  note: See changelog/aaaai-me-changelog.yml for the structured entries.

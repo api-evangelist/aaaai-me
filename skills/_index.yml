@@ -1,0 +1,40 @@
+generated: '2026-09-19'
+method: generated
+source: >-
+  openapi/aaaai-me-openapi.json (every route verified present by method + path; the provider declares
+  no operationId on any of its 102 operations, so operation_ids is empty and routes carries the
+  binding) plus the provider's own agent documents https://aaaai.me/auth.md, https://aaaai.me/pay.md
+  and https://aaaai.me/.well-known/agent-payments.json. AAA AI publishes no packaged skills of its own:
+  its /.well-known/agent-skills/index.json (agentskills.io discovery v0.2.0) is a list of twelve
+  documentation and discovery URLs, not instructions — it is saved verbatim in well-known/ and is not
+  a skill.
+skills:
+- file: aaaai-me-ask-and-stream.md
+  name: aaaai-me-ask-and-stream
+  method: generated
+  description: Authenticate, then get an answer from the multi-expert pipeline — one-shot, streamed over SSE, inside a persistent chat, or through the OpenAI-compatible endpoint.
+  operations: 8
+  operation_ids: []
+  routes: ['POST /api/auth/login', 'POST /api/ask', 'POST /api/query', 'POST /api/query/stream', 'POST /api/chats', 'POST /api/chats/{chat_id}/messages', 'GET /v1/models', 'POST /v1/chat/completions']
+- file: aaaai-me-approvals-loop.md
+  name: aaaai-me-approvals-loop
+  method: generated
+  description: Run work on a paired device agent and route destructive commands through the human approvals queue — create, poll, resolve — instead of executing them blind.
+  operations: 6
+  operation_ids: []
+  routes: ['GET /api/nodes', 'POST /api/tools/invoke', 'POST /api/approvals', 'GET /api/approvals/{approval_id}', 'GET /api/approvals', 'POST /api/approvals/{approval_id}/resolve']
+- file: aaaai-me-schedule-and-goals.md
+  name: aaaai-me-schedule-and-goals
+  method: generated
+  description: Schedule recurring agent work as cron jobs, trigger one on demand, watch the background goal jobs it spawns, and stop or delete cleanly.
+  operations: 8
+  operation_ids: []
+  routes: ['POST /api/cron/jobs', 'GET /api/cron/jobs', 'GET /api/cron/jobs/{job_id}', 'POST /api/cron/jobs/{job_id}/trigger', 'GET /api/goal-jobs', 'GET /api/goal-jobs/{job_id}', 'POST /api/goal-jobs/{job_id}/stop', 'DELETE /api/cron/jobs/{job_id}']
+- file: aaaai-me-buy-pro-as-agent.md
+  name: aaaai-me-buy-pro-as-agent
+  method: generated
+  description: Handle the 403 subscription gate the provider's way — read the offer, create a crypto payment for the workspace email, poll until confirmed — with the money-safety rules the docs do and do not state.
+  operations: 4
+  operation_ids: []
+  routes: ['POST /api/auth/register', 'GET /api/billing/crypto/config', 'POST /api/billing/crypto/create', 'GET /api/billing/crypto/status/{address}']
+  grounding_note: The three /api/billing/crypto/* routes are documented in pay.md and agent-payments.json and were probed live (config 200), but are NOT in the Swagger contract.

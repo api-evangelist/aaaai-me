@@ -1,0 +1,33 @@
+{
+  "name": "AAA AI",
+  "description": "Autonomous Agents Automations — multi-expert AI platform with Meet, workflows, and agent teams.",
+  "url": "https://aaaai.me/",
+  "homepage": "https://aaaai.me/",
+  "platform": "https://web.aaaai.me/",
+  "meet": "https://web.aaaai.me/meet",
+  "docs": "https://aaaai.me/docs.html",
+  "pricing": "https://aaaai.me/pay/",
+  "llms_txt": "https://aaaai.me/llms.txt",
+  "llms_full": "https://aaaai.me/llms-full.txt",
+  "index_md": "https://aaaai.me/index.md",
+  "ai_txt": "https://aaaai.me/ai.txt",
+  "pay_md": "https://aaaai.me/pay.md",
+  "auth_md": "https://aaaai.me/auth.md",
+  "api_catalog": "https://aaaai.me/.well-known/api-catalog",
+  "agent_payments": "https://aaaai.me/.well-known/agent-payments.json",
+  "agent_skills": "https://aaaai.me/.well-known/agent-skills/index.json",
+  "mcp": "https://aaaai.me/.well-known/mcp/server-card.json",
+  "openapi": "https://web.aaaai.me/apispec_1.json",
+  "sitemap": "https://aaaai.me/sitemap.xml",
+  "robots": "https://aaaai.me/robots.txt",
+  "contact": {
+    "sales": "hello@aaaai.me",
+    "support": "support@aaaai.me"
+  },
+  "policy": {
+    "search": true,
+    "ai_input": true,
+    "ai_train": false,
+    "agents_may_purchase": true
+  }
+}

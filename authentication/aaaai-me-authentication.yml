@@ -1,0 +1,76 @@
+generated: '2026-09-19'
+method: searched
+source: openapi/aaaai-me-openapi.json
+docs: https://aaaai.me/auth.md
+summary:
+  types:
+  - apiKey
+  - cookie
+  api_key_in:
+  - header
+  oauth2_flows: []
+  note: >-
+    The contract declares ONE scheme, ApiKeyAuth (apiKey, header X-User-Login), and applies it to no
+    operation, so the derived profile is thin; the rest is from https://aaaai.me/auth.md, the live 401
+    text, response headers observed 2026-09-19 and the OAuth/OIDC discovery documents on aaaai.me.
+    OAuth is advertised in metadata only (scopes/aaaai-me-scopes.yml): the issuer host web.aaaai.me
+    serves no discovery document and no JWKS, so oauth2 is not listed as a working type here.
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-User-Login
+  sources:
+  - openapi/aaaai-me-openapi.json
+  evidence: >-
+    GET https://web.aaaai.me/api/status without credentials -> 401 {"message":"Authentication required.
+    Please login or provide X-User-Login header.","status":"error"}; no WWW-Authenticate header.
+  how_to_obtain: 'auth.md: "Programmatic clients should use API keys configured in the product (Settings -> API keys)". Key format is not published.'
+- name: session cookie
+  type: cookie
+  in: cookie
+  parameter: session
+  sources:
+  - https://aaaai.me/auth.md
+  evidence: >-
+    GET https://web.aaaai.me/ sets "session=...; Expires=+30 days; HttpOnly; Path=/; SameSite=Lax".
+    auth.md: "After authentication, the platform issues a session cookie for browser clients."
+  obtained_via:
+  - 'POST /api/auth/login {login, password} (bare POST -> 400 "Login and password required")'
+  - 'POST /api/auth/apple {identity_token, authorization_code, email} (Sign in with Apple)'
+  - 'Google sign-in on https://web.aaaai.me/ (auth.md; no API route in the contract)'
+  revoked_via: POST /api/auth/logout (also named revocation_endpoint in the OAuth metadata)
+- name: X-Agent-Token
+  type: apiKey
+  in: header
+  parameter: X-Agent-Token
+  sources:
+  - 'openapi/aaaai-me-openapi.json#POST /api/approvals (summary: "Create approval (agent when destructive + no TTY). Header: X-Agent-Token.")'
+  evidence: Named only in that operation's summary; not declared as a parameter or securityDefinition. Identifies a paired device agent (see GET /api/nodes). Format and issuance not published.
+- name: OAuth 2.0 / OpenID Connect (advertised)
+  type: oauth2
+  status: advertised-not-verified
+  sources:
+  - well-known/aaaai-me-oauth-authorization-server.json
+  - well-known/aaaai-me-openid-configuration.json
+  - well-known/aaaai-me-oauth-protected-resource.json
+  issuer: https://web.aaaai.me
+  authorizationUrl: https://web.aaaai.me/
+  tokenUrl: https://web.aaaai.me/api/auth/login
+  scopes: [openid, profile, email, api, offline_access]
+  evidence: >-
+    Metadata is served from aaaai.me (200) but the issuer host returns 404 for
+    /.well-known/oauth-authorization-server, /.well-known/openid-configuration and the declared
+    jwks_uri; the token endpoint is the password-login route. Recorded for completeness; see
+    scopes/ and conformance/ for the RFC 8414 / OIDC Discovery / RFC 9728 verdicts.
+account_security:
+  two_factor: 'docs.html s9 Security: "Enable two-factor authentication (2FA) ... Scan a QR code with your authenticator app and save backup codes. View connected devices and active sessions."'
+anonymous_routes_observed:
+- GET /api/health
+- GET /api/billing/crypto/config
+- GET /api/billing/yookassa/config
+- GET /api/mcp/marketplace
+subscription_gate:
+  status: 403
+  field: subscribe_url
+  source: https://aaaai.me/.well-known/agent-payments.json#access_gate

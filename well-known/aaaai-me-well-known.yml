@@ -1,0 +1,239 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live GET probes of the named /.well-known/* and root discovery paths on aaaai.me, www.aaaai.me,
+  web.aaaai.me and docs.aaaai.me, 2026-09-19. Every row below is a request that was actually issued
+  and every status is the one returned. Saved files are byte-for-byte copies of the served bodies.
+summary:
+  hosts_probed: 4
+  documents_served: 9
+  hit_count: 9
+  path_echo_control: passed
+  note: >-
+    AAA AI publishes an unusually complete DISCOVERY layer on its static marketing host aaaai.me
+    (S3 + CloudFront): an RFC 9727 API catalog, OAuth 2.0 authorization-server metadata (RFC 8414),
+    OpenID Provider metadata, RFC 9728 protected-resource metadata, an OpenAI-era ai-plugin.json, an
+    agentskills.io discovery index, an MCP "server card", an agent-payments catalog and a
+    /.well-known/agent.json. Only some of what those documents POINT AT exists on the API host
+    web.aaaai.me: the OpenAPI they name (https://web.aaaai.me/apispec_1.json) is a 404 and the real
+    Swagger 2.0 document lives at https://web.aaaai.me/api/spec.json (the URL the Flasgger UI at
+    /apidocs loads); the MCP transport URL (https://web.aaaai.me/api/mcp/marketplace) is a GET-only
+    JSON catalog of third-party stdio MCP servers, not an MCP endpoint (POST tools/list returns 405);
+    the api-catalog's MCP anchor https://web.aaaai.me/api/mcp is a 404; and the jwks_uri the OIDC
+    document declares (https://web.aaaai.me/.well-known/jwks.json) is a 404. The /.well-known/agent.json
+    is a site-map style manifest (name, description, url, homepage, docs, pricing, contact, policy
+    and links to the other files) and carries none of version, protocolVersion, capabilities or
+    skills — it fails the AgentCard shape test (2 of 6 identifying fields), so it is recorded HERE as a
+    served well-known document and NOT as an A2A agent card (no a2a/ artifact, no AgentCard pointer).
+    aaaai.me answers every missing key with an S3 AccessDenied 403 (111-byte XML), which is this host's
+    404; a negative-control path that cannot exist returned that same 403, and web.aaaai.me returned
+    its real JSON 404 for its control, so none of the 200s below is a catch-all.
+hosts:
+- host: aaaai.me
+  role: Website and discovery host (static S3 + CloudFront). Not an API host.
+  documents:
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 1226
+    last_modified: '2026-09-18'
+    file: aaaai-me-agent.json
+    standard: none (site manifest at the legacy A2A path)
+    agent_card_shape: false
+    note: >-
+      Present fields: name, description, url, homepage, platform, meet, docs, pricing, llms_txt,
+      llms_full, index_md, ai_txt, pay_md, auth_md, api_catalog, agent_payments, agent_skills, mcp,
+      openapi, sitemap, robots, contact{sales,support}, policy{search,ai_input,ai_train,
+      agents_may_purchase}. Absent: version, protocolVersion, capabilities, skills, provider,
+      preferredTransport, supportedInterfaces. Not an A2A AgentCard; a2aregistry.org lists it as one.
+  - path: /.well-known/agent-card.json
+    status: 403
+    note: S3 AccessDenied — the canonical A2A 1.0 path is not served.
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/octet-stream
+    bytes: 783
+    file: aaaai-me-openid-configuration.json
+    standard: OpenID Connect Discovery 1.0 (shape)
+    required_fields: {issuer: https://web.aaaai.me, jwks_uri: https://web.aaaai.me/.well-known/jwks.json}
+    note: >-
+      Served with the wrong media type (octet-stream) and from a host that is not the declared issuer;
+      https://web.aaaai.me/.well-known/openid-configuration is a 404 and the declared jwks_uri is a 404.
+      authorization_endpoint is the app root, token_endpoint is the password login route
+      /api/auth/login, registration_endpoint is the human sign-up page.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/octet-stream
+    bytes: 1021
+    file: aaaai-me-oauth-authorization-server.json
+    standard: RFC 8414 (shape) plus a non-standard agent_auth block
+    note: >-
+      Declares issuer https://web.aaaai.me, scopes [openid, profile, email, api], grant types
+      [authorization_code, refresh_token, password]. The same document is a 404 on the issuer host.
+      agent_auth.discovery points at the api-catalog, MCP server card and agent-skills index.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/octet-stream
+    bytes: 321
+    file: aaaai-me-oauth-protected-resource.json
+    standard: RFC 9728 (shape)
+    note: >-
+      resource https://web.aaaai.me/api, authorization_servers [https://web.aaaai.me]. RFC 9728 places
+      this document on the RESOURCE host; web.aaaai.me/.well-known/oauth-protected-resource is a 404.
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json; profile="https://www.rfc-editor.org/info/rfc9727"
+    bytes: 946
+    file: aaaai-me-api-catalog.json
+    standard: RFC 9727 API Catalog
+    note: >-
+      Correct media type and profile. Two anchors: https://web.aaaai.me/api (service-desc
+      https://web.aaaai.me/apispec_1.json -> 404; service-doc https://web.aaaai.me/apidocs -> 200;
+      status https://web.aaaai.me/api/health -> 200) and https://web.aaaai.me/api/mcp (-> 404;
+      service-desc is the MCP server card).
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 1125
+    file: aaaai-me-ai-plugin.json
+    standard: OpenAI plugin manifest v1 (shape)
+    note: api.url https://web.aaaai.me/apispec_1.json -> 404. auth.type none.
+  - path: /.well-known/mcp/server-card.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 1296
+    file: aaaai-me-mcp-server-card.json
+    standard: none (vendor "server card")
+    note: >-
+      transport {type: sse, url: https://web.aaaai.me/api/mcp/marketplace}; that URL is a GET-only
+      JSON catalog of 17 third-party stdio MCP servers (saved verbatim to
+      mcp/aaaai-me-mcp-marketplace.json); POST returns 405. See mcp/aaaai-me-mcp.yml.
+  - path: /.well-known/agent-skills/index.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 3040
+    file: aaaai-me-agent-skills-index.json
+    standard: agentskills.io discovery v0.2.0 ($schema declared)
+    note: 12 entries, all links to documentation/discovery URLs on this host — none is a packaged skill.
+  - path: /.well-known/agent-payments.json
+    status: 200
+    content_type: application/json; charset=utf-8
+    bytes: 5114
+    file: aaaai-me-agent-payments.json
+    standard: none (vendor schema; its declared $schema URL returns 403)
+    note: >-
+      Machine-readable Pro offer ($20/EUR20/GBP20 per month, RUB 1500 via SBP) and three checkout
+      methods, one fully agent-automatable (crypto create + poll on web.aaaai.me/api/billing/crypto/*).
+      Read into plans/aaaai-me-plans-pricing.yml.
+  - path: /.well-known/security.txt
+    status: 403
+  - path: /security.txt
+    status: 403
+  - path: /.well-known/apis.json
+    status: 403
+  - path: /apis.json
+    status: 403
+  - path: /.well-known/mcp.json
+    status: 403
+  - path: /.well-known/aauth-resource.json
+    status: 403
+  - path: /.well-known/ucp.json
+    status: 403
+  - path: /.well-known/acp.json
+    status: 403
+  - path: /.well-known/agent-payments.schema.json
+    status: 403
+    note: The $schema URL that agent-payments.json declares for itself.
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    bytes: 3788
+    file: ../llms/aaaai-me-llms.txt
+  - path: /robots.txt
+    status: 200
+    note: >-
+      Carries Content-Signal: search=yes, ai-input=yes, ai-train=no plus explicit Allow groups for 25
+      named AI/search crawlers. Lists three sitemaps and the agent/LLM map files.
+  - path: /.well-known/aaaai-me-negative-control-9c1e2.json
+    status: 403
+    control: negative
+    note: A path that cannot exist. Same 111-byte S3 AccessDenied as every other miss — no path echo, no catch-all.
+- host: www.aaaai.me
+  role: Alias — serves the same S3 bucket (200 for the same keys, 403 for the same misses); no redirect to the apex.
+  documents:
+  - {path: /.well-known/agent-skills/index.json, status: 200, note: Same body as the apex.}
+  - {path: /.well-known/agent-card.json, status: 403}
+  - {path: /.well-known/security.txt, status: 403}
+  - {path: /security.txt, status: 403}
+- host: web.aaaai.me
+  role: API host (Swagger servers host, OAuth issuer, MCP resource per the protected-resource document). Flask/Werkzeug; AWS.
+  documents:
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /.well-known/security.txt, status: 404}
+  - path: /.well-known/openid-configuration
+    status: 404
+    note: This host is the declared issuer; the document lives only on aaaai.me.
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    note: This host is the declared issuer; the document lives only on aaaai.me.
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    note: This host is the declared resource (https://web.aaaai.me/api); RFC 9728 expects the document here.
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - path: /.well-known/jwks.json
+    status: 404
+    note: The jwks_uri the OIDC document declares.
+  - {path: /.well-known/mcp/server-card.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /robots.txt, status: 404}
+  - path: /api/spec.json
+    status: 200
+    content_type: application/json
+    bytes: 27124
+    file: ../openapi/aaaai-me-openapi.json
+    standard: Swagger 2.0
+    note: The real contract (AAAAI API 1.1.0, 79 paths, 102 operations). Discovered from the Flasgger UI at /apidocs, which loads it.
+  - path: /apispec_1.json
+    status: 404
+    note: The OpenAPI URL every discovery document on aaaai.me names.
+  - {path: /api/health, status: 200, note: '{"active_users":2,"status":"healthy","system":"AAAAI (Per-User Architecture)"}'}
+  - {path: /api/status, status: 401, note: 'Authentication required. Please login or provide X-User-Login header.'}
+  - path: /api/mcp
+    status: 404
+    note: The api-catalog's MCP anchor.
+  - path: /api/mcp/marketplace
+    status: 200
+    content_type: application/json
+    bytes: 5490
+    file: ../mcp/aaaai-me-mcp-marketplace.json
+    note: GET-only catalog of 17 third-party stdio MCP servers; POST tools/list -> 405. Not an MCP endpoint.
+  - path: /.well-known/apis-io-negative-control-7f3ab91c.json
+    status: 404
+    control: negative
+    note: Real JSON 404 ({"message":"Resource not found","status":"error"}), same as every other miss on this host.
+- host: docs.aaaai.me
+  role: Not a docs host — a rebranded ONLYOFFICE Document Server ("A|A|A AI Docs Community Edition") welcome page at /welcome/.
+  documents:
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /llms.txt, status: 404}
+  - {path: /.well-known/aaaai-me-negative-control-9c1e2.json, status: 404, control: negative}
+other_hosts_probed:
+- {host: status.aaaai.me, result: no DNS}
+- {host: api.aaaai.me, result: no DNS}
+- {host: mcp.aaaai.me, result: no DNS}
+ai_discovery_files:
+  note: >-
+    Beyond /.well-known, aaaai.me serves the full "AI Discovery Files" set from ai-visibility.org.uk,
+    each dated 2026-09-18 — /ai.txt, /ai.json (permissions incl. "purchase"; restrictions incl.
+    "train"), /identity.json (Organization; alternateName AAAAI), /brand.txt, /faq-ai.txt,
+    /developer-ai.txt, /llm.txt, /llms.html — plus /agents.md, /index.md, /auth.md and /pay.md. All
+    returned 200 and were read; none is saved here except llms.txt.

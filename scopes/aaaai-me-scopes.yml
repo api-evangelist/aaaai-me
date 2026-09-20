@@ -1,0 +1,76 @@
+generated: '2026-09-19'
+method: searched
+source: https://aaaai.me/.well-known/oauth-authorization-server
+docs: https://aaaai.me/auth.md
+note: >-
+  openapi/aaaai-me-openapi.json declares NO oauth2 security scheme (its only scheme is the
+  X-User-Login apiKey header), so derive-oauth-scopes.py has nothing to derive. The scopes below are
+  the ones AAA AI publishes in its OAuth 2.0 authorization-server metadata and OpenID Provider
+  metadata, both served from the marketing host aaaai.me for issuer https://web.aaaai.me, and
+  described for agents at https://aaaai.me/auth.md ("authenticate against the platform issuer
+  https://web.aaaai.me using the metadata at /.well-known/oauth-authorization-server").
+  VERIFICATION 2026-09-19: the issuer host serves neither metadata document (404) nor the declared
+  JWKS (404); the authorization_endpoint is the application root (https://web.aaaai.me/), the
+  token_endpoint is the email/password login route (POST /api/auth/login, which answered a bare POST
+  with 400 "Login and password required"), and no operation in the contract requires any of these
+  scopes. Treat this as a PUBLISHED scope vocabulary whose authorization flow could not be exercised
+  anonymously, not as a working OAuth 2.0 server.
+schemes:
+- name: oauth-authorization-server (RFC 8414 metadata)
+  source: well-known/aaaai-me-oauth-authorization-server.json
+  issuer: https://web.aaaai.me
+  served_from: https://aaaai.me/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://web.aaaai.me/
+    tokenUrl: https://web.aaaai.me/api/auth/login
+    pkce: [S256]
+  - flow: refreshToken
+    tokenUrl: https://web.aaaai.me/api/auth/login
+  - flow: password
+    tokenUrl: https://web.aaaai.me/api/auth/login
+    note: Deprecated in OAuth 2.1; declared here.
+  token_endpoint_auth_methods_supported: [client_secret_post, none]
+  revocation_endpoint: https://web.aaaai.me/api/auth/logout
+  registration_endpoint: https://aaaai.me/register.html
+  registration_note: A human sign-up page, not RFC 7591 dynamic client registration.
+  agent_auth:
+    supported_identity_types: [human, service]
+    credential_types: [api_key, session, oauth]
+- name: openid-configuration (OIDC Discovery metadata)
+  source: well-known/aaaai-me-openid-configuration.json
+  issuer: https://web.aaaai.me
+  served_from: https://aaaai.me/.well-known/openid-configuration
+  jwks_uri: https://web.aaaai.me/.well-known/jwks.json
+  jwks_status: 404
+  response_types_supported: [code, id_token, token]
+  id_token_signing_alg_values_supported: [RS256]
+  token_endpoint_auth_methods_supported: [client_secret_post, client_secret_basic, none]
+scopes:
+- scope: openid
+  description: OpenID Connect authentication (declared in both documents).
+  flows: [authorizationCode]
+  sources: [well-known/aaaai-me-oauth-authorization-server.json, well-known/aaaai-me-openid-configuration.json]
+- scope: profile
+  description: Profile claims (declared in both documents; not described further by the provider).
+  flows: [authorizationCode]
+  sources: [well-known/aaaai-me-oauth-authorization-server.json, well-known/aaaai-me-openid-configuration.json]
+- scope: email
+  description: Email claim (declared in both documents).
+  flows: [authorizationCode]
+  sources: [well-known/aaaai-me-oauth-authorization-server.json, well-known/aaaai-me-openid-configuration.json]
+- scope: api
+  description: Access to the platform API (resource https://web.aaaai.me/api per the protected-resource document). Declared in the authorization-server and protected-resource documents only.
+  flows: [authorizationCode]
+  sources: [well-known/aaaai-me-oauth-authorization-server.json, well-known/aaaai-me-oauth-protected-resource.json]
+- scope: offline_access
+  description: Refresh tokens (declared in the OpenID Provider metadata only).
+  flows: [authorizationCode]
+  sources: [well-known/aaaai-me-openid-configuration.json]
+protected_resource:
+  source: well-known/aaaai-me-oauth-protected-resource.json
+  resource: https://web.aaaai.me/api
+  authorization_servers: [https://web.aaaai.me]
+  scopes_supported: [openid, profile, email, api]
+  bearer_methods_supported: [header, body]
+  resource_signing_alg_values_supported: [RS256]

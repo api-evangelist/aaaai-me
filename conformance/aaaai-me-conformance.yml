@@ -1,0 +1,125 @@
+generated: '2026-09-19'
+method: probed
+source: >-
+  Live probes of aaaai.me / web.aaaai.me discovery documents (well-known/aaaai-me-well-known.yml) and
+  a read of openapi/aaaai-me-openapi.json (Swagger 2.0, AAAAI API 1.1.0), 2026-09-19. Each entry
+  names what was fetched or read; content decided the verdict, never the status code alone.
+standards:
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: >-
+    GET https://aaaai.me/.well-known/api-catalog -> 200 application/linkset+json;
+    profile="https://www.rfc-editor.org/info/rfc9727" with a linkset[] of two anchors carrying
+    service-desc / service-doc / status relations. Correct media type, profile and shape. Two of its
+    targets are dead (service-desc https://web.aaaai.me/apispec_1.json 404; anchor
+    https://web.aaaai.me/api/mcp 404), which does not break catalog conformance but does break what
+    an agent following it finds.
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: false
+  evidence: >-
+    A document with issuer https://web.aaaai.me is served at
+    https://aaaai.me/.well-known/oauth-authorization-server (200, application/octet-stream), but RFC
+    8414 s3 requires it at the ISSUER's well-known location, and
+    https://web.aaaai.me/.well-known/oauth-authorization-server is a 404. The issuer/location
+    mismatch is a MUST-level failure (s3.3 issuer validation). Declared grant types include the
+    deprecated password grant; authorization_endpoint is the application root.
+- id: openid-connect-discovery
+  conforms: false
+  evidence: >-
+    https://aaaai.me/.well-known/openid-configuration (200) declares issuer https://web.aaaai.me and
+    jwks_uri https://web.aaaai.me/.well-known/jwks.json; the issuer host serves neither the
+    configuration (404) nor the JWKS (404). An OIDC relying party performing discovery on the issuer
+    finds nothing, and id_token signature verification (RS256 declared) has no key set.
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: false
+  evidence: >-
+    https://aaaai.me/.well-known/oauth-protected-resource (200) declares resource
+    https://web.aaaai.me/api with authorization_servers [https://web.aaaai.me]. RFC 9728 s3 locates
+    the document on the resource host; https://web.aaaai.me/.well-known/oauth-protected-resource is a
+    404 and no WWW-Authenticate resource_metadata parameter accompanies the live 401 from
+    GET https://web.aaaai.me/api/status.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    openapi/aaaai-me-openapi.json declares one securityDefinition, ApiKeyAuth (apiKey, header
+    X-User-Login), and no oauth2 scheme; the live 401 says "Please login or provide X-User-Login
+    header". OAuth is advertised only in discovery metadata (see scopes/aaaai-me-scopes.yml).
+- id: openai-chat-completions-api
+  conforms: true
+  domain_standard: true
+  evidence: >-
+    openapi/aaaai-me-openapi.json paths['/v1/chat/completions'].post ("Chat completions
+    (OpenAI-compatible)", body {model, messages[], max_tokens}) and paths['/v1/models'].get ("List
+    models (OpenAI-compatible)"). The de facto wire standard of the LLM-platform market, declared in
+    the contract itself; an OpenAI-SDK client can target base URL https://web.aaaai.me/v1 without a
+    bespoke connector.
+- id: llms-txt
+  conforms: true
+  evidence: >-
+    GET https://aaaai.me/llms.txt -> 200 text/plain, H1 + blockquote summary + H2 link sections
+    (llmstxt.org shape). Saved verbatim to llms/aaaai-me-llms.txt. A companion /llms-full.txt is
+    also served (not saved).
+- id: openai-plugin-manifest-v1
+  conforms: true
+  evidence: >-
+    GET https://aaaai.me/.well-known/ai-plugin.json -> 200 with schema_version v1, name_for_model,
+    description_for_model, auth {type: none}, api {type: openapi, url}. Shape-conformant; the api.url
+    it names (https://web.aaaai.me/apispec_1.json) is a 404.
+- id: agentskills-discovery-v0.2.0
+  conforms: true
+  evidence: >-
+    GET https://aaaai.me/.well-known/agent-skills/index.json -> 200 with $schema
+    https://agentskills.io/schemas/discovery/v0.2.0/schema.json and a skills[] of 12 {name, type,
+    description, url} entries. Every entry links a documentation or discovery URL; none is a packaged
+    skill with instructions.
+- id: a2a-agent-card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json -> 403 (not served). /.well-known/agent.json -> 200 JSON object with
+    name, description, url, homepage and link fields only — no version, protocolVersion,
+    capabilities, skills or provider (2 of the 6 identifying AgentCard fields). Not an A2A card; the
+    a2aregistry.org listing that led here treats it as one.
+- id: mcp
+  conforms: false
+  evidence: >-
+    The MCP server card's transport URL https://web.aaaai.me/api/mcp/marketplace answers GET with a
+    catalog of third-party stdio servers and POST tools/list with 405; https://web.aaaai.me/api/mcp
+    is a 404. No MCP JSON-RPC responder exists (mcp/aaaai-me-mcp.yml).
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Live 400/401/404/405 responses from web.aaaai.me are {"message": "...", "status": "error"} with
+    content-type application/json, not application/problem+json (errors/aaaai-me-problem-types.yml).
+- id: content-signals-robots
+  conforms: true
+  evidence: >-
+    https://aaaai.me/robots.txt carries "Content-Signal: search=yes, ai-input=yes, ai-train=no"
+    (contentsignals.org syntax) under User-agent: *, with the policy preamble, and repeats the policy
+    in /ai.txt, /ai.json and /.well-known/agent.json.
+- id: ai-discovery-files
+  conforms: true
+  evidence: >-
+    The ai-visibility.org.uk "AI Discovery Files" set is served in full from aaaai.me, each dated
+    2026-09-18 and citing its ADF specification: /ai.txt, /ai.json ($schema ai-json v1),
+    /identity.json ($schema identity-json v1), /brand.txt (ADF-007), /faq-ai.txt (ADF-008),
+    /developer-ai.txt (ADF-009), /llm.txt, /llms.html.
+- id: pagination
+  conforms: false
+  evidence: >-
+    openapi/aaaai-me-openapi.json declares a query "limit" on two operations only and no cursor,
+    offset or page parameter anywhere; list operations (chats, approvals, cron jobs, goal jobs, video
+    sessions, nodes) document no paging.
+- id: idempotency
+  conforms: false
+  evidence: No Idempotency-Key or equivalent parameter in the contract and none documented (conventions/aaaai-me-conventions.yml).
+- id: scim
+  conforms: false
+  evidence: No /scim path and no urn:ietf:params:scim URN anywhere in the contract.
+compliance_program:
+  published: false
+  evidence: >-
+    The homepage lists SOC 2, ISO 27001, GDPR, CCPA, HIPAA and PCI DSS under "Designed to support
+    customer-controlled compliance programs" and states "Certification and legal compliance depend on
+    your deployment, controls, and independent assessment." That is an explicit non-claim, so no
+    Compliance pointer is emitted. probe-security-programs.py 2026-09-19: vdp=none trust=none;
+    /trust, /security, /accessibility -> 403.

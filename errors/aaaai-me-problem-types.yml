@@ -1,0 +1,74 @@
+generated: '2026-09-19'
+method: derived
+format: custom
+source: >-
+  openapi/aaaai-me-openapi.json (Swagger 2.0 — 4xx/5xx responses declared on 12 of 102 operations,
+  none with a schema) plus live unauthenticated responses observed on web.aaaai.me 2026-09-19 and the
+  access-gate documented in https://aaaai.me/.well-known/agent-payments.json and
+  https://aaaai.me/pay.md. No error reference page is published.
+envelope:
+  content_type: application/json
+  shape: '{"message": "<human-readable text>", "status": "error"}'
+  observed:
+  - {http_status: 400, request: 'POST /api/auth/login {}', message: Login and password required}
+  - {http_status: 401, request: 'GET /api/status (no credentials)', message: 'Authentication required. Please login or provide X-User-Login header.'}
+  - {http_status: 404, request: 'GET /apispec_1.json, /openapi.json, /api/mcp, /.well-known/*', message: Resource not found}
+  - {http_status: 405, request: 'POST /api/mcp/marketplace', message: '405 Method Not Allowed: The method is not allowed for the requested URL.'}
+  note: >-
+    No error code field, no type URI, no request id and no application/problem+json. The only
+    machine-distinguishable signals are the HTTP status and the message string. The 401 carries no
+    WWW-Authenticate header.
+problems:
+- status: 400
+  title: Bad request
+  source_operations:
+  - 'openapi/aaaai-me-openapi.json#POST /api/auth/login'
+  - 'openapi/aaaai-me-openapi.json#POST /api/auth/register'
+  - 'openapi/aaaai-me-openapi.json#POST /api/auth/apple'
+  - 'openapi/aaaai-me-openapi.json#POST /api/query'
+  - 'openapi/aaaai-me-openapi.json#POST /api/query/stream'
+  - 'openapi/aaaai-me-openapi.json#POST /api/chats/{chat_id}/messages'
+  - 'openapi/aaaai-me-openapi.json#POST /api/chats/{chat_id}/attachments'
+  - 'openapi/aaaai-me-openapi.json#POST /api/live'
+  spec_description: as declared per operation (e.g. "Bad request", "Missing query")
+  observed_message: Login and password required
+  remediation: Supply the required body fields the operation's Swagger body schema marks required (query, login/password, file).
+- status: 401
+  title: Authentication required
+  source_operations:
+  - 'openapi/aaaai-me-openapi.json#GET /api/status'
+  - 'openapi/aaaai-me-openapi.json#GET /api/user/current'
+  - 'openapi/aaaai-me-openapi.json#POST /api/auth/delete-account'
+  observed_message: 'Authentication required. Please login or provide X-User-Login header.'
+  remediation: Send the X-User-Login header (the spec's ApiKeyAuth securityDefinition) or a session cookie from POST /api/auth/login. See authentication/aaaai-me-authentication.yml.
+- status: 403
+  title: Subscription required (access gate)
+  source: https://aaaai.me/.well-known/agent-payments.json#access_gate
+  documented_shape: 'HTTP 403 with a subscribe_url field ("Unauthenticated or unpaid API/UI calls may return HTTP 403 with subscribe_url.")'
+  remediation: >-
+    Open or automate checkout at the returned subscribe_url (https://aaaai.me/pay/, preferably with
+    ?email=<workspace email>); the provider's agent playbook (https://aaaai.me/pay.md) recommends the
+    crypto create + poll flow on /api/billing/crypto/*. Not declared in the Swagger contract.
+- status: 404
+  title: Resource not found
+  observed_message: Resource not found
+  remediation: The path does not exist on web.aaaai.me. Note that several URLs the provider's own discovery documents name (apispec_1.json, /api/mcp, jwks.json) return this.
+- status: 405
+  title: Method not allowed
+  observed_message: '405 Method Not Allowed: The method is not allowed for the requested URL.'
+  remediation: Use the method the contract declares; /api/mcp/marketplace is GET-only.
+- status: 500
+  title: Internal error
+  source_operations:
+  - 'openapi/aaaai-me-openapi.json#POST /api/initialize'
+  spec_description: as declared ("Initialization error")
+  remediation: Not documented; retry guidance is not published.
+coverage:
+  operations_total: 102
+  operations_declaring_4xx_or_5xx: 12
+  operations_declaring_only_200: 90
+  status_codes_declared: {'200': 102, '202': 1, '400': 8, '401': 3, '500': 1}
+  note: >-
+    The contract declares a 200 on every operation and an error response on 12; none of the error
+    responses carries a schema. Live behaviour shows 401 applies to essentially every /api/* route
+    outside health, auth and billing, so the declared coverage understates the real error surface.

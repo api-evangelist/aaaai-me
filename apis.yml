@@ -23,7 +23,7 @@ specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
-- AI
+- Artificial Intelligence
 - Agents
 - Multi-Agent
 - LLM Orchestration
@@ -32,8 +32,8 @@ tags:
 - Video
 - Workflows
 - MCP
-- Agent Commerce
-- OpenAI Compatible
+- Agentic Commerce
+- OpenAI-Compatible
 - Self-Hosted
 - agent-native
 - Montenegro
@@ -52,6 +52,8 @@ tags_raw:
 - Self-hosted
 - Agent-native
 - Montenegro
+- Agent Commerce
+- OpenAI Compatible
 apis:
 - aid: aaaai-me:aaaai-platform-api
   name: AAAAI Platform API
@@ -70,6 +72,12 @@ apis:
   humanURL: https://web.aaaai.me/apidocs
   baseURL: https://web.aaaai.me
   tags:
+  - Artificial Intelligence
+  - Agents
+  - Multi-Agent
+  - OpenAI-Compatible
+  - Workflows
+  tags_raw:
   - AI
   - Agents
   - Multi-Agent
@@ -106,6 +114,11 @@ apis:
   humanURL: https://aaaai.me/pay.md
   baseURL: https://web.aaaai.me/api/billing
   tags:
+  - Agentic Commerce
+  - Payments
+  - Crypto
+  - Subscription
+  tags_raw:
   - Agent Commerce
   - Payments
   - Crypto

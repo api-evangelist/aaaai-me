@@ -1,0 +1,32 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Debug API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Debug and development
+  name: Debug
+paths:
+  /api/debug/search:
+    get:
+      parameters:
+      - in: query
+        name: q
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Search result
+      summary: Debug search
+      tags:
+      - Debug
+      operationId: getApiDebugSearch
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

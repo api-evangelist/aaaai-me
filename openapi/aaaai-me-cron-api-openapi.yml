@@ -1,0 +1,100 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Cron API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- name: Cron
+paths:
+  /api/cron/jobs:
+    get:
+      responses:
+        '200':
+          description: List of jobs
+      summary: List scheduled cron jobs (OpenClaw-style)
+      tags:
+      - Cron
+      operationId: getApiCronJobs
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: Created job
+      summary: Create cron job
+      tags:
+      - Cron
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                enabled:
+                  type: boolean
+                label:
+                  type: string
+                request:
+                  type: string
+                schedule:
+                  description: Cron expression (e.g. 0 9 * * *)
+                  type: string
+                work_until_goal:
+                  description: Continue with tools and recovery until verified completion
+                  type: boolean
+              type: object
+      operationId: postApiCronJobs
+      x-operation-id-source: derived
+  /api/cron/jobs/{job_id}:
+    delete:
+      parameters:
+      - in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted
+      summary: Delete cron job
+      tags:
+      - Cron
+      operationId: deleteApiCronJobsByJobId
+      x-operation-id-source: derived
+    get:
+      parameters:
+      - in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Job
+      summary: Get cron job
+      tags:
+      - Cron
+      operationId: getApiCronJobsByJobId
+      x-operation-id-source: derived
+  /api/cron/jobs/{job_id}/trigger:
+    post:
+      parameters:
+      - in: path
+        name: job_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Run result
+      summary: Run cron job now
+      tags:
+      - Cron
+      operationId: postApiCronJobsByJobIdTrigger
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

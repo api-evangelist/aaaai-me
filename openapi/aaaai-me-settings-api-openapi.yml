@@ -1,0 +1,183 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Settings API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Platform and expert settings
+  name: Settings
+paths:
+  /api/media/endpoints:
+    get:
+      responses:
+        '200':
+          description: Media endpoints and effective provider/model info
+      security:
+      - ApiKeyAuth: []
+      summary: List authenticated audio/video API endpoints and effective models
+      tags:
+      - Settings
+      operationId: getApiMediaEndpoints
+      x-operation-id-source: derived
+  /api/settings/all:
+    get:
+      responses:
+        '200':
+          description: All settings
+      summary: Get all settings (expert model, platform, video agent)
+      tags:
+      - Settings
+      operationId: getApiSettingsAll
+      x-operation-id-source: derived
+  /api/settings/mcp-platforms:
+    get:
+      responses:
+        '200':
+          description: mcp_platforms, platforms_meta
+      summary: Get MCP settings per platform (default, chatgpt, claude)
+      tags:
+      - Settings
+      operationId: getApiSettingsMcpPlatforms
+      x-operation-id-source: derived
+    put:
+      responses:
+        '200':
+          description: Updated
+      summary: Update MCP platform settings
+      tags:
+      - Settings
+      operationId: putApiSettingsMcpPlatforms
+      x-operation-id-source: derived
+  /api/settings/platform:
+    get:
+      responses:
+        '200':
+          description: Settings
+      summary: Get platform settings
+      tags:
+      - Settings
+      operationId: getApiSettingsPlatform
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: Applied
+      summary: Apply platform settings
+      tags:
+      - Settings
+      operationId: postApiSettingsPlatform
+      x-operation-id-source: derived
+    put:
+      responses:
+        '200':
+          description: Updated
+      summary: Update platform settings
+      tags:
+      - Settings
+      operationId: putApiSettingsPlatform
+      x-operation-id-source: derived
+  /api/settings/system-agent:
+    get:
+      responses:
+        '200':
+          description: System agent settings
+      summary: Get system agent settings
+      tags:
+      - Settings
+      operationId: getApiSettingsSystemAgent
+      x-operation-id-source: derived
+    put:
+      responses:
+        '200':
+          description: Updated
+      summary: Update system agent settings
+      tags:
+      - Settings
+      operationId: putApiSettingsSystemAgent
+      x-operation-id-source: derived
+  /api/settings/video-agent:
+    get:
+      responses:
+        '200':
+          description: Video agent settings
+      security:
+      - ApiKeyAuth: []
+      summary: Get video agent settings
+      tags:
+      - Settings
+      operationId: getApiSettingsVideoAgent
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: Applied
+      security:
+      - ApiKeyAuth: []
+      summary: Apply video agent settings
+      tags:
+      - Settings
+      operationId: postApiSettingsVideoAgent
+      x-operation-id-source: derived
+    put:
+      responses:
+        '200':
+          description: Updated
+      security:
+      - ApiKeyAuth: []
+      summary: Update video agent settings
+      tags:
+      - Settings
+      operationId: putApiSettingsVideoAgent
+      x-operation-id-source: derived
+  /api/settings/voice:
+    get:
+      responses:
+        '200':
+          description: Voice settings
+      security:
+      - ApiKeyAuth: []
+      summary: Get voice / TTS settings
+      tags:
+      - Settings
+      operationId: getApiSettingsVoice
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: Applied
+      security:
+      - ApiKeyAuth: []
+      summary: Apply voice / TTS settings
+      tags:
+      - Settings
+      operationId: postApiSettingsVoice
+      x-operation-id-source: derived
+    put:
+      responses:
+        '200':
+          description: Updated
+      security:
+      - ApiKeyAuth: []
+      summary: Update voice / TTS settings
+      tags:
+      - Settings
+      operationId: putApiSettingsVoice
+      x-operation-id-source: derived
+  /api/system-agent/status:
+    get:
+      responses:
+        '200':
+          description: Connected, LLM, message
+      summary: Get system agent connection status
+      tags:
+      - Settings
+      operationId: getApiSystemAgentStatus
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

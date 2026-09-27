@@ -1,0 +1,82 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Deep Agent API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- name: Deep Agent
+paths:
+  /api/deep-agent/chat:
+    post:
+      responses:
+        '200':
+          description: Agent response
+      summary: Chat with the Deep Agent (multi-turn, session-based)
+      tags:
+      - Deep Agent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                message:
+                  description: User message
+                  type: string
+                model:
+                  default: ''
+                  type: string
+                provider:
+                  default: ollama
+                  type: string
+                session_id:
+                  description: Session ID for persistent conversation
+                  type: string
+              type: object
+      operationId: postApiDeepAgentChat
+      x-operation-id-source: derived
+  /api/deep-agent/run:
+    post:
+      responses:
+        '200':
+          description: Agent result
+      summary: Run a task through the Deep Agent (one-shot)
+      tags:
+      - Deep Agent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                auto_approve:
+                  default: false
+                  type: boolean
+                model:
+                  default: ''
+                  type: string
+                provider:
+                  default: ollama
+                  type: string
+                query:
+                  description: Task for the agent
+                  type: string
+              type: object
+      operationId: postApiDeepAgentRun
+      x-operation-id-source: derived
+  /api/deep-agent/status:
+    get:
+      responses:
+        '200':
+          description: Agent capabilities and status
+      summary: Get Deep Agent status
+      tags:
+      - Deep Agent
+      operationId: getApiDeepAgentStatus
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

@@ -1,0 +1,94 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Approvals API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- name: Approvals
+paths:
+  /api/approvals:
+    get:
+      parameters:
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - pending
+          - approved
+          - rejected
+      responses:
+        '200':
+          description: List of approvals
+      summary: List exec approvals (pending destructive commands)
+      tags:
+      - Approvals
+      operationId: getApiApprovals
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: approval_id
+      summary: 'Create approval (agent when destructive + no TTY). Header: X-Agent-Token'
+      tags:
+      - Approvals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                agent_id:
+                  type: string
+                command:
+                  type: string
+              type: object
+      operationId: postApiApprovals
+      x-operation-id-source: derived
+  /api/approvals/{approval_id}:
+    get:
+      parameters:
+      - in: path
+        name: approval_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Approval
+      summary: Get approval status (agent polling)
+      tags:
+      - Approvals
+      operationId: getApiApprovalsByApprovalId
+      x-operation-id-source: derived
+  /api/approvals/{approval_id}/resolve:
+    post:
+      parameters:
+      - in: path
+        name: approval_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Resolved approval
+      summary: Resolve approval (approve/reject)
+      tags:
+      - Approvals
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                approved:
+                  type: boolean
+              type: object
+      operationId: postApiApprovalsByApprovalIdResolve
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

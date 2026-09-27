@@ -1,0 +1,37 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Health API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Health and status
+  name: Health
+paths:
+  /api/health:
+    get:
+      responses:
+        '200':
+          description: System health status
+      summary: Health check
+      tags:
+      - Health
+      operationId: getApiHealth
+      x-operation-id-source: derived
+  /api/status:
+    get:
+      responses:
+        '200':
+          description: Current system status
+      summary: Get system status
+      tags:
+      - Health
+      operationId: getApiStatus
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

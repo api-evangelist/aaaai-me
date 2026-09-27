@@ -1,0 +1,128 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Auth API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Authentication
+  name: Auth
+paths:
+  /api/auth/apple:
+    post:
+      description: 'Sign in with Apple (Guideline 4.8). Body: identity_token (required), optional: authorization_code, email, name.'
+      responses:
+        '200':
+          description: Logged in with Apple
+        '400':
+          description: identity_token required
+        '401':
+          description: Invalid token or not configured
+      summary: Sign in with Apple
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                authorization_code:
+                  type: string
+                email:
+                  type: string
+                identity_token:
+                  type: string
+                name:
+                  type: string
+              required:
+              - identity_token
+              type: object
+        required: true
+      operationId: postApiAuthApple
+      x-operation-id-source: derived
+  /api/auth/delete-account:
+    post:
+      description: 'Permanently delete the current user account and all associated data. Requires authentication. Optional body: { "password": "..." } for confirmation.'
+      responses:
+        '200':
+          description: Account deleted
+        '400':
+          description: Validation error
+        '401':
+          description: Not authenticated
+      summary: Delete account
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                password:
+                  type: string
+              type: object
+      operationId: postApiAuthDeleteAccount
+      x-operation-id-source: derived
+  /api/auth/login:
+    post:
+      responses:
+        '200':
+          description: Login success
+        '401':
+          description: Invalid credentials
+      summary: Login
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiAuthLogin
+      x-operation-id-source: derived
+  /api/auth/logout:
+    post:
+      responses:
+        '200':
+          description: Logged out
+      summary: Logout
+      tags:
+      - Auth
+      operationId: postApiAuthLogout
+      x-operation-id-source: derived
+  /api/auth/register:
+    post:
+      responses:
+        '200':
+          description: Registration success
+        '400':
+          description: Validation error
+      summary: Register new user
+      tags:
+      - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiAuthRegister
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

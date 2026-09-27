@@ -1,0 +1,46 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Agents API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- name: Agents
+paths:
+  /api/goal-jobs:
+    get:
+      responses:
+        '200':
+          description: Owner-scoped job statuses
+      summary: List background goal jobs for the current user
+      tags:
+      - Agents
+      operationId: getApiGoalJobs
+      x-operation-id-source: derived
+  /api/goal-jobs/{job_id}:
+    get:
+      responses:
+        '200':
+          description: Progress, result, and completion evidence
+      summary: Get background goal job status
+      tags:
+      - Agents
+      operationId: getApiGoalJobsByJobId
+      x-operation-id-source: derived
+  /api/goal-jobs/{job_id}/stop:
+    post:
+      responses:
+        '200':
+          description: Stop requested
+      summary: Stop a background goal job
+      tags:
+      - Agents
+      operationId: postApiGoalJobsByJobIdStop
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

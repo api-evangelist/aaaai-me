@@ -1,0 +1,58 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Video API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Video sessions
+  name: Video
+paths:
+  /api/video-sessions:
+    get:
+      responses:
+        '200':
+          description: List of video sessions
+      summary: List video sessions
+      tags:
+      - Video
+      operationId: getApiVideoSessions
+      x-operation-id-source: derived
+  /api/video-sessions/{session_id}:
+    delete:
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Deleted
+      summary: Delete video session
+      tags:
+      - Video
+      operationId: deleteApiVideoSessionsBySessionId
+      x-operation-id-source: derived
+    get:
+      parameters:
+      - in: path
+        name: session_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Session
+      summary: Get video session
+      tags:
+      - Video
+      operationId: getApiVideoSessionsBySessionId
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

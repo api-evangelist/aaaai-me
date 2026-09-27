@@ -1,0 +1,60 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Cognitive Scaling API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Cognitive scaling status and control
+  name: Cognitive Scaling
+paths:
+  /api/cognitive-scaling/memory:
+    get:
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Decisions
+      summary: Get recent cognitive scaling decisions
+      tags:
+      - Cognitive Scaling
+      operationId: getApiCognitiveScalingMemory
+      x-operation-id-source: derived
+  /api/cognitive-scaling/status:
+    get:
+      responses:
+        '200':
+          description: Status
+      summary: Get cognitive scaling status
+      tags:
+      - Cognitive Scaling
+      operationId: getApiCognitiveScalingStatus
+      x-operation-id-source: derived
+  /api/cognitive-scaling/toggle:
+    post:
+      responses:
+        '200':
+          description: Toggled
+      summary: Toggle cognitive scaling
+      tags:
+      - Cognitive Scaling
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                enabled:
+                  type: boolean
+              type: object
+      operationId: postApiCognitiveScalingToggle
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

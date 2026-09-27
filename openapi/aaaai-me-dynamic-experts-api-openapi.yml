@@ -1,0 +1,125 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Dynamic Experts API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Dynamic expert creation and management
+  name: Dynamic Experts
+paths:
+  /api/dynamic-experts/create:
+    post:
+      responses:
+        '200':
+          description: Created
+        '400':
+          description: Bad request
+      summary: Create custom expert
+      tags:
+      - Dynamic Experts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                expert_id:
+                  type: string
+                focus_areas:
+                  items:
+                    type: string
+                  type: array
+                specialty:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiDynamicExpertsCreate
+      x-operation-id-source: derived
+  /api/dynamic-experts/list:
+    get:
+      responses:
+        '200':
+          description: List
+      summary: List dynamically created experts
+      tags:
+      - Dynamic Experts
+      operationId: getApiDynamicExpertsList
+      x-operation-id-source: derived
+  /api/dynamic-experts/status:
+    get:
+      responses:
+        '200':
+          description: Status
+      summary: Get dynamic experts status
+      tags:
+      - Dynamic Experts
+      operationId: getApiDynamicExpertsStatus
+      x-operation-id-source: derived
+  /api/dynamic-experts/toggle:
+    post:
+      responses:
+        '200':
+          description: Toggled
+      summary: Toggle dynamic expert creation
+      tags:
+      - Dynamic Experts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                enabled:
+                  type: boolean
+              type: object
+      operationId: postApiDynamicExpertsToggle
+      x-operation-id-source: derived
+  /api/dynamic-experts/{expert_id}:
+    delete:
+      parameters:
+      - in: path
+        name: expert_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted
+      summary: Delete dynamic expert
+      tags:
+      - Dynamic Experts
+      operationId: deleteApiDynamicExpertsByExpertId
+      x-operation-id-source: derived
+    patch:
+      parameters:
+      - in: path
+        name: expert_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Updated
+      summary: Update dynamic expert
+      tags:
+      - Dynamic Experts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                focus_areas:
+                  items:
+                    type: string
+                  type: array
+                specialty:
+                  type: string
+              type: object
+      operationId: patchApiDynamicExpertsByExpertId
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

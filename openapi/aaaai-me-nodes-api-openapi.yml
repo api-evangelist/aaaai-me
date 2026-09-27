@@ -1,0 +1,42 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Nodes API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- name: Nodes
+paths:
+  /api/nodes:
+    get:
+      responses:
+        '200':
+          description: List of nodes
+      summary: List connected nodes (agents/devices)
+      tags:
+      - Nodes
+      operationId: getApiNodes
+      x-operation-id-source: derived
+  /api/nodes/{node_id}:
+    delete:
+      parameters:
+      - in: path
+        name: node_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Unpaired
+      summary: Unpair node
+      tags:
+      - Nodes
+      operationId: deleteApiNodesByNodeId
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

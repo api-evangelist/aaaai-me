@@ -35,7 +35,7 @@ tags:
 - Agentic Commerce
 - OpenAI-Compatible
 - Self-Hosted
-- agent-native
+- Agent-Native
 - Montenegro
 tags_raw:
 - AI
@@ -54,63 +54,20 @@ tags_raw:
 - Montenegro
 - Agent Commerce
 - OpenAI Compatible
+- agent-native
 apis:
-- aid: aaaai-me:aaaai-platform-api
-  name: AAAAI Platform API
-  description: >-
-    REST API of the AAA AI workspace, published as Swagger 2.0 "AAAAI API" 1.1.0 (host web.aaaai.me,
-    79 paths, 102 operations, no operationIds, empty definitions) at https://web.aaaai.me/api/spec.json —
-    the document the Flasgger UI at /apidocs loads; every provider discovery file instead names
-    /apispec_1.json, which is a 404. Covers health, auth (login, register, Sign in with Apple, delete
-    account), the current user, chats with messages and attachments, one-shot and SSE-streamed
-    queries, OpenAI-compatible /v1/models and /v1/chat/completions, code-only generation, audio
-    transcription and speech, expert-pool and dynamic-expert management, cognitive scaling, exec
-    approvals (X-Agent-Token), cron jobs, background goal jobs, the Deep Agent, single-tool invocation
-    on paired device agents, dev-preview sessions, connected nodes, video sessions, memories and
-    per-user settings including MCP platform profiles. Auth is an X-User-Login header or session
-    cookie; /api/health answers anonymously.
-  humanURL: https://web.aaaai.me/apidocs
-  baseURL: https://web.aaaai.me
-  tags:
-  - Artificial Intelligence
-  - Agents
-  - Multi-Agent
-  - OpenAI-Compatible
-  - Workflows
-  tags_raw:
-  - AI
-  - Agents
-  - Multi-Agent
-  - OpenAI Compatible
-  - Workflows
-  properties:
-  - type: OpenAPI
-    url: openapi/aaaai-me-openapi.json
-  - type: OpenAPI
-    name: AAAAI API Swagger 2.0 (provider-hosted)
-    url: https://web.aaaai.me/api/spec.json
-  - type: APIReference
-    url: https://web.aaaai.me/apidocs
-  - type: Documentation
-    url: https://aaaai.me/docs.html
-  - type: Overlay
-    url: overlays/aaaai-me-openapi-overlay.yaml
-  - type: DataModel
-    url: data-model/aaaai-me-data-model.yml
-  - type: ErrorCatalog
-    url: errors/aaaai-me-problem-types.yml
 - aid: aaaai-me:aaaai-agent-checkout-api
   name: AAA AI Agent Checkout (Billing) API
   description: >-
-    The provider-documented purchase surface for autonomous agents, described in
-    https://aaaai.me/pay.md and machine-readably in https://aaaai.me/.well-known/agent-payments.json
-    but absent from the Swagger contract: GET /api/billing/crypto/config (anonymous; probed 200 —
-    USDT 20.0, ETH 0.006, BTC 0.0003), POST /api/billing/crypto/create {email, currency} returning
-    address, amount, currency and status_token, and GET /api/billing/crypto/status/{address}?status_token=
-    polled until confirmed, at which point the $20/month Pro licence is applied to that email. Sibling
-    Paddle card checkout (browser-assisted) and YooKassa SBP endpoints (config reports enabled: false)
-    are documented alongside. The provider's policy states AI agents may purchase Pro when a user
-    needs paid access; refunds are discretionary under the Terms.
+    The provider-documented purchase surface for autonomous agents, described in https://aaaai.me/pay.md
+    and machine-readably in https://aaaai.me/.well-known/agent-payments.json but absent from the Swagger
+    contract: GET /api/billing/crypto/config (anonymous; probed 200 — USDT 20.0, ETH 0.006, BTC 0.0003),
+    POST /api/billing/crypto/create {email, currency} returning address, amount, currency and status_token,
+    and GET /api/billing/crypto/status/{address}?status_token= polled until confirmed, at which point
+    the $20/month Pro licence is applied to that email. Sibling Paddle card checkout (browser-assisted)
+    and YooKassa SBP endpoints (config reports enabled: false) are documented alongside. The provider's
+    policy states AI agents may purchase Pro when a user needs paid access; refunds are discretionary
+    under the Terms.
   humanURL: https://aaaai.me/pay.md
   baseURL: https://web.aaaai.me/api/billing
   tags:
@@ -130,12 +87,302 @@ apis:
     url: https://aaaai.me/pay/
   - type: AgentSkill
     url: skills/aaaai-me-buy-pro-as-agent.md
+- aid: aaaai-me:aaaai-me-agents-api
+  name: AAA AI Agents API
+  description: The Agents API from AAA AI — 3 operation(s) for agents.
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Agents
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-agents-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-approvals-api
+  name: AAA AI Approvals API
+  description: The Approvals API from AAA AI — 3 operation(s) for approvals.
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Approvals
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-approvals-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-auth-api
+  name: AAA AI Auth API
+  description: Authentication
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-auth-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-chat-api
+  name: AAA AI Chat API
+  description: Chat and queries
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Chat
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-chat-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-code-api
+  name: AAA AI Code API
+  description: Code-only generation (Cursor / CLI / IDE)
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Code
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-code-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-cognitive-scaling-api
+  name: AAA AI Cognitive Scaling API
+  description: Cognitive scaling status and control
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Cognitive Scaling
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-cognitive-scaling-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-cron-api
+  name: AAA AI Cron API
+  description: The Cron API from AAA AI — 3 operation(s) for cron.
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Cron
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-cron-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-debug-api
+  name: AAA AI Debug API
+  description: Debug and development
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Debug
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-debug-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-deep-agent-api
+  name: AAA AI Deep Agent API
+  description: The Deep Agent API from AAA AI — 3 operation(s) for deep agent.
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Deep Agent
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-deep-agent-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-dynamic-experts-api
+  name: AAA AI Dynamic Experts API
+  description: Dynamic expert creation and management
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Dynamic Experts
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-dynamic-experts-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-experts-api
+  name: AAA AI Experts API
+  description: Expert system management
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Experts
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-experts-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-health-api
+  name: AAA AI Health API
+  description: Health and status
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-health-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-nodes-api
+  name: AAA AI Nodes API
+  description: The Nodes API from AAA AI — 2 operation(s) for nodes.
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Nodes
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-nodes-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-settings-api
+  name: AAA AI Settings API
+  description: Platform and expert settings
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-settings-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-user-api
+  name: AAA AI User API
+  description: Current user and avatar
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-user-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
+- aid: aaaai-me:aaaai-me-video-api
+  name: AAA AI Video API
+  description: Video sessions
+  humanURL: https://web.aaaai.me/apidocs
+  baseURL: https://web.aaaai.me
+  tags:
+  - Video
+  properties:
+  - type: OpenAPI
+    url: openapi/aaaai-me-video-api-openapi.yml
+  - type: APIReference
+    url: https://web.aaaai.me/apidocs
+  - type: Documentation
+    url: https://aaaai.me/docs.html
+  - type: DataModel
+    url: data-model/aaaai-me-data-model.yml
+  - type: ErrorCatalog
+    url: errors/aaaai-me-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/aaaai-me-openapi-overlay.yaml
 - type: AgenticAccess
   url: agentic-access/aaaai-me-agentic-access.yml
 - type: Website

@@ -1,0 +1,109 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI User API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Current user and avatar
+  name: User
+paths:
+  /api/user/avatar:
+    delete:
+      responses:
+        '200':
+          description: Avatar removed
+      summary: Delete avatar
+      tags:
+      - User
+      operationId: deleteApiUserAvatar
+      x-operation-id-source: derived
+    get:
+      responses:
+        '200':
+          description: Avatar info
+      summary: Get avatar URL or metadata
+      tags:
+      - User
+      operationId: getApiUserAvatar
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: Avatar updated
+      summary: Upload avatar
+      tags:
+      - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                avatar:
+                  description: Base64 image
+                  type: string
+              type: object
+      operationId: postApiUserAvatar
+      x-operation-id-source: derived
+  /api/user/avatar/raw:
+    get:
+      responses:
+        '200':
+          description: Avatar image
+      summary: Get raw avatar image
+      tags:
+      - User
+      operationId: getApiUserAvatarRaw
+      x-operation-id-source: derived
+  /api/user/current:
+    get:
+      responses:
+        '200':
+          description: Current user or anonymous
+      summary: Get current user
+      tags:
+      - User
+      operationId: getApiUserCurrent
+      x-operation-id-source: derived
+  /api/user/ui-preferences:
+    get:
+      responses:
+        '200':
+          description: 'language: en|ru|null'
+      summary: Get UI preferences (e.g. language)
+      tags:
+      - User
+      operationId: getApiUserUiPreferences
+      x-operation-id-source: derived
+    put:
+      responses:
+        '200':
+          description: Saved
+      summary: Save UI preferences
+      tags:
+      - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                appearance:
+                  enum:
+                  - light
+                  - dark
+                  type: string
+                language:
+                  enum:
+                  - en
+                  - ru
+                  type: string
+              type: object
+      operationId: putApiUserUiPreferences
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

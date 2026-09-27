@@ -1,0 +1,654 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Chat API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Chat and queries
+  name: Chat
+paths:
+  /api/ask:
+    post:
+      responses:
+        '200':
+          description: Answer
+      summary: Simple ask (single question)
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                query:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiAsk
+      x-operation-id-source: derived
+  /api/audio/speech:
+    post:
+      responses:
+        '200':
+          description: Audio stream
+      security:
+      - ApiKeyAuth: []
+      summary: Generate speech audio from text
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                model:
+                  type: string
+                provider:
+                  type: string
+                speed:
+                  type: number
+                text:
+                  type: string
+                voice:
+                  type: string
+              type: object
+      operationId: postApiAudioSpeech
+      x-operation-id-source: derived
+  /api/audio/transcribe:
+    post:
+      responses:
+        '200':
+          description: Transcript
+      security:
+      - ApiKeyAuth: []
+      summary: Transcribe audio (speech-to-text)
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                audio_base64:
+                  type: string
+                language:
+                  type: string
+                mime:
+                  type: string
+                model:
+                  type: string
+                provider:
+                  type: string
+              type: object
+      operationId: postApiAudioTranscribe
+      x-operation-id-source: derived
+  /api/audio/voices:
+    get:
+      responses:
+        '200':
+          description: Voice list
+      security:
+      - ApiKeyAuth: []
+      summary: List available TTS voices
+      tags:
+      - Chat
+      operationId: getApiAudioVoices
+      x-operation-id-source: derived
+  /api/chats:
+    get:
+      responses:
+        '200':
+          description: List of chats
+      summary: List chats
+      tags:
+      - Chat
+      operationId: getApiChats
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: Created chat
+      summary: Create chat
+      tags:
+      - Chat
+      operationId: postApiChats
+      x-operation-id-source: derived
+  /api/chats/{chat_id}:
+    delete:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Deleted
+      summary: Delete chat
+      tags:
+      - Chat
+      operationId: deleteApiChatsByChatId
+      x-operation-id-source: derived
+    get:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Chat
+      summary: Get chat by ID
+      tags:
+      - Chat
+      operationId: getApiChatsByChatId
+      x-operation-id-source: derived
+    put:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Updated
+      summary: Update chat (e.g. title)
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+              type: object
+      operationId: putApiChatsByChatId
+      x-operation-id-source: derived
+  /api/chats/{chat_id}/attachments:
+    delete:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Cleared
+      summary: Clear attachments for chat
+      tags:
+      - Chat
+      operationId: deleteApiChatsByChatIdAttachments
+      x-operation-id-source: derived
+    get:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of attachments
+      summary: List attachments for chat
+      tags:
+      - Chat
+      operationId: getApiChatsByChatIdAttachments
+      x-operation-id-source: derived
+    post:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Attachment created
+      summary: Upload attachment
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                file:
+                  type: string
+                filename:
+                  type: string
+              type: object
+      operationId: postApiChatsByChatIdAttachments
+      x-operation-id-source: derived
+  /api/chats/{chat_id}/attachments/{attachment_id}:
+    delete:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      - in: path
+        name: attachment_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Deleted
+      summary: Delete single attachment
+      tags:
+      - Chat
+      operationId: deleteApiChatsByChatIdAttachmentsByAttachmentId
+      x-operation-id-source: derived
+  /api/chats/{chat_id}/messages:
+    post:
+      parameters:
+      - in: path
+        name: chat_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Query response
+      summary: Post message to chat (query with optional attachments)
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                conversation_history:
+                  type: array
+                human_like:
+                  type: boolean
+                image:
+                  type: string
+                query:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiChatsByChatIdMessages
+      x-operation-id-source: derived
+  /api/coding-feedback:
+    post:
+      responses:
+        '200':
+          description: Feedback recorded
+      summary: Submit coding feedback
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      operationId: postApiCodingFeedback
+      x-operation-id-source: derived
+  /api/coding-memory/bootstrap:
+    post:
+      responses:
+        '200':
+          description: Bootstrap result
+      summary: Bootstrap coding memory
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      operationId: postApiCodingMemoryBootstrap
+      x-operation-id-source: derived
+  /api/dev-preview/sessions:
+    get:
+      responses:
+        '200':
+          description: Preview sessions
+      security:
+      - ApiKeyAuth: []
+      summary: List remote preview sessions for the authenticated user
+      tags:
+      - Chat
+      operationId: getApiDevPreviewSessions
+      x-operation-id-source: derived
+  /api/dev-preview/start:
+    post:
+      responses:
+        '200':
+          description: Preview metadata
+      security:
+      - ApiKeyAuth: []
+      summary: Start a remote preview/dev server on the authenticated user's linked agent
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                command:
+                  type: string
+                host:
+                  type: string
+                label:
+                  type: string
+                preferred_port:
+                  type: integer
+                preferred_url:
+                  type: string
+                startup_timeout_sec:
+                  type: integer
+                workdir:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiDevPreviewStart
+      x-operation-id-source: derived
+  /api/dev-preview/stop:
+    post:
+      responses:
+        '200':
+          description: Stopped preview session
+      security:
+      - ApiKeyAuth: []
+      summary: Stop a remote preview session
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                session_id:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiDevPreviewStop
+      x-operation-id-source: derived
+  /api/dev-preview/test:
+    post:
+      responses:
+        '200':
+          description: Playwright test result
+      security:
+      - ApiKeyAuth: []
+      summary: Run Playwright checks against a remote preview URL
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                screenshot:
+                  type: boolean
+                url:
+                  type: string
+                urls:
+                  items:
+                    type: string
+                  type: array
+                wait_for_network_idle:
+                  type: boolean
+                wait_until:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiDevPreviewTest
+      x-operation-id-source: derived
+  /api/initialize:
+    post:
+      responses:
+        '200':
+          description: Initialization success
+      summary: Initialize AAAAI system
+      tags:
+      - Chat
+      operationId: postApiInitialize
+      x-operation-id-source: derived
+  /api/live:
+    post:
+      responses:
+        '200':
+          description: Response with TTS text
+      security:
+      - ApiKeyAuth: []
+      summary: Live mode (voice + camera, or voice-only)
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                image:
+                  type: string
+                transcript:
+                  type: string
+                voice_only:
+                  type: boolean
+              type: object
+      operationId: postApiLive
+      x-operation-id-source: derived
+  /api/memories:
+    get:
+      parameters:
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: List of memories
+      summary: Get recent memories
+      tags:
+      - Chat
+      operationId: getApiMemories
+      x-operation-id-source: derived
+  /api/query:
+    post:
+      responses:
+        '200':
+          description: Query response with experts and decision
+      summary: Process a query
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                chat_id:
+                  description: Optional chat ID for attachments
+                  type: integer
+                conversation_history:
+                  items:
+                    type: object
+                  type: array
+                human_like:
+                  default: false
+                  description: Turing Test mode
+                  type: boolean
+                image:
+                  description: Optional base64 image
+                  type: string
+                query:
+                  description: User message
+                  type: string
+                run_system_agent:
+                  description: When true and message contains the word 'run', system agent runs commands on host and appends output to response
+                  type: boolean
+              required:
+              - query
+              type: object
+        required: true
+      operationId: postApiQuery
+      x-operation-id-source: derived
+  /api/query/stream:
+    post:
+      responses:
+        '200':
+          description: Server-sent events stream
+      summary: Process query with streaming response
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                chat_id:
+                  type: integer
+                human_like:
+                  type: boolean
+                image:
+                  type: string
+                query:
+                  type: string
+              required:
+              - query
+              type: object
+        required: true
+      operationId: postApiQueryStream
+      x-operation-id-source: derived
+  /api/reset:
+    post:
+      responses:
+        '200':
+          description: Reset complete
+      summary: Reset system (clear memories and state)
+      tags:
+      - Chat
+      operationId: postApiReset
+      x-operation-id-source: derived
+  /api/system-agent/run:
+    post:
+      responses:
+        '200':
+          description: Explanation, commands, results
+        '202':
+          description: Background goal job; poll /api/goal-jobs/{job_id}
+      summary: Run system agent (turn natural language into commands and execute)
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                dry_run:
+                  default: false
+                  type: boolean
+                request:
+                  type: string
+                work_until_goal:
+                  description: Continue with tools and recovery until verified completion
+                  type: boolean
+              type: object
+        required: true
+      operationId: postApiSystemAgentRun
+      x-operation-id-source: derived
+  /api/tools/invoke:
+    post:
+      responses:
+        '200':
+          description: Tool result (stdout, stderr, returncode)
+      summary: Invoke a single agent tool.
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                command:
+                  type: string
+                params:
+                  type: object
+                path:
+                  type: string
+                script:
+                  type: string
+                timeout:
+                  default: 60
+                  type: integer
+                tool:
+                  enum:
+                  - run_shell_command
+                  - run_dev_server
+                  - stop_dev_server
+                  - list_dev_servers
+                  - web_ui_test
+                  - read_file
+                  - write_file
+                  - list_dir
+                  - amazon_checkout
+                  - browser
+                  type: string
+                url:
+                  type: string
+                urls:
+                  items:
+                    type: string
+                  type: array
+              type: object
+        required: true
+      operationId: postApiToolsInvoke
+      x-operation-id-source: derived
+  /api/web-search/sources:
+    get:
+      responses:
+        '200':
+          description: Sources by category
+      summary: List web search sources (ChatGPT-style, incl. RU segment)
+      tags:
+      - Chat
+      operationId: getApiWebSearchSources
+      x-operation-id-source: derived
+  /v1/chat/completions:
+    post:
+      responses:
+        '200':
+          description: Chat completion response
+      summary: Chat completions (OpenAI-compatible)
+      tags:
+      - Chat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                max_tokens:
+                  type: integer
+                messages:
+                  type: array
+                model:
+                  type: string
+              type: object
+        required: true
+      operationId: postV1ChatCompletions
+      x-operation-id-source: derived
+  /v1/models:
+    get:
+      responses:
+        '200':
+          description: Model list
+      summary: List models (OpenAI-compatible)
+      tags:
+      - Chat
+      operationId: getV1Models
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

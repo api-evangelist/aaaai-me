@@ -1,0 +1,39 @@
+{
+  "provider": "aaaai-me",
+  "sources": [
+    "aaaai-me-openapi.json"
+  ],
+  "outputs": [
+    "aaaai-me-agents-api-openapi.yml",
+    "aaaai-me-approvals-api-openapi.yml",
+    "aaaai-me-auth-api-openapi.yml",
+    "aaaai-me-chat-api-openapi.yml",
+    "aaaai-me-code-api-openapi.yml",
+    "aaaai-me-cognitive-scaling-api-openapi.yml",
+    "aaaai-me-cron-api-openapi.yml",
+    "aaaai-me-debug-api-openapi.yml",
+    "aaaai-me-deep-agent-api-openapi.yml",
+    "aaaai-me-dynamic-experts-api-openapi.yml",
+    "aaaai-me-experts-api-openapi.yml",
+    "aaaai-me-health-api-openapi.yml",
+    "aaaai-me-nodes-api-openapi.yml",
+    "aaaai-me-settings-api-openapi.yml",
+    "aaaai-me-user-api-openapi.yml",
+    "aaaai-me-video-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/aaaai-me-openapi.json"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "aaaai-me-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "aaaai-me-openapi.json: declared missing tag: Agents",
+    "aaaai-me-openapi.json: declared missing tag: Approvals",
+    "aaaai-me-openapi.json: declared missing tag: Cron",
+    "aaaai-me-openapi.json: declared missing tag: Deep Agent",
+    "aaaai-me-openapi.json: declared missing tag: Nodes",
+    "apis.yml register: written (+16 apis, 17 total)"
+  ],
+  "skipped": []
+}

@@ -1,0 +1,177 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Experts API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Expert system management
+  name: Experts
+paths:
+  /api/experts/add:
+    post:
+      responses:
+        '200':
+          description: Expert added
+        '400':
+          description: Bad request
+      summary: Add expert to pool (existing type or custom)
+      tags:
+      - Experts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                expert_type:
+                  description: Existing type (e.g. math, social) or new id for custom expert
+                  type: string
+                focus_areas:
+                  description: Optional focus areas for custom expert
+                  items:
+                    type: string
+                  type: array
+                model:
+                  type: string
+                name:
+                  type: string
+                provider:
+                  type: string
+                specialty:
+                  description: 'Required for custom expert: specialty description'
+                  type: string
+              type: object
+        required: true
+      operationId: postApiExpertsAdd
+      x-operation-id-source: derived
+  /api/experts/auto-scale:
+    post:
+      responses:
+        '200':
+          description: Auto-scale toggled
+      summary: Toggle auto-scaling
+      tags:
+      - Experts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                enabled:
+                  type: boolean
+              type: object
+      operationId: postApiExpertsAutoScale
+      x-operation-id-source: derived
+  /api/experts/edit:
+    post:
+      responses:
+        '200':
+          description: Updated
+        '400':
+          description: Bad request
+      summary: Edit expert (name/provider/model)
+      tags:
+      - Experts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                expert_type:
+                  type: string
+                model:
+                  type: string
+                name:
+                  type: string
+                provider:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiExpertsEdit
+      x-operation-id-source: derived
+  /api/experts/remove:
+    post:
+      responses:
+        '200':
+          description: Removed
+        '400':
+          description: Bad request
+      summary: Remove expert from pool
+      tags:
+      - Experts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                expert_type:
+                  type: string
+              type: object
+        required: true
+      operationId: postApiExpertsRemove
+      x-operation-id-source: derived
+  /api/experts/scale-down:
+    post:
+      responses:
+        '200':
+          description: Scaled down
+      summary: Scale down (remove optional experts)
+      tags:
+      - Experts
+      operationId: postApiExpertsScaleDown
+      x-operation-id-source: derived
+  /api/experts/scale-up:
+    post:
+      responses:
+        '200':
+          description: Scaled up
+      summary: Scale up (add all missing experts)
+      tags:
+      - Experts
+      operationId: postApiExpertsScaleUp
+      x-operation-id-source: derived
+  /api/experts/settings:
+    get:
+      responses:
+        '200':
+          description: Expert settings
+      summary: Get expert model settings
+      tags:
+      - Experts
+      operationId: getApiExpertsSettings
+      x-operation-id-source: derived
+    post:
+      responses:
+        '200':
+          description: Applied
+      summary: Apply expert model settings
+      tags:
+      - Experts
+      operationId: postApiExpertsSettings
+      x-operation-id-source: derived
+    put:
+      responses:
+        '200':
+          description: Updated
+      summary: Update expert model settings
+      tags:
+      - Experts
+      operationId: putApiExpertsSettings
+      x-operation-id-source: derived
+  /api/experts/status:
+    get:
+      responses:
+        '200':
+          description: Expert status
+      summary: Get expert system status
+      tags:
+      - Experts
+      operationId: getApiExpertsStatus
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

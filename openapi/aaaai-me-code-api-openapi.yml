@@ -1,0 +1,58 @@
+openapi: 3.2.0
+info:
+  description: 'REST API for the AAAAI system: health, auth, user, chats, messages, attachments, query/stream, experts, settings, video sessions, cognitive scaling, and dynamic experts.'
+  title: AAAAI Code API
+  version: 1.1.0
+servers:
+- url: https://web.aaaai.me
+tags:
+- description: Code-only generation (Cursor / CLI / IDE)
+  name: Code
+paths:
+  /api/code:
+    post:
+      description: Uses coding experts (Ollama etc.) and returns only the generated code. No auth by default.
+      responses:
+        '200':
+          description: JSON with status, code
+        '400':
+          description: Missing prompt
+        '500':
+          description: Server error
+      summary: Generate code only (Cursor / CLI / IDE integration)
+      tags:
+      - Code
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                chat_id:
+                  description: If set, requires auth; prompt and code are stored in this chat (e.g. CLI chat)
+                  type: integer
+                is_completion:
+                  default: false
+                  description: Completion mode
+                  type: boolean
+                max_tokens:
+                  default: 8192
+                  description: Max tokens (256-32768)
+                  type: integer
+                prompt:
+                  description: What to generate (e.g. 'bash script to backup /var/log')
+                  type: string
+                query:
+                  description: Alias for prompt
+                  type: string
+              required:
+              - prompt
+              type: object
+        required: true
+      operationId: postApiCode
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      in: header
+      name: X-User-Login
+      type: apiKey

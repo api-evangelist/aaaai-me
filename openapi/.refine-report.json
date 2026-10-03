@@ -1,7 +1,7 @@
 {
   "provider": "aaaai-me",
   "sources": [
-    "aaaai-me-openapi.json"
+    "_original/aaaai-me-openapi.json"
   ],
   "outputs": [
     "aaaai-me-agents-api-openapi.yml",
@@ -21,19 +21,35 @@
     "aaaai-me-user-api-openapi.yml",
     "aaaai-me-video-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/aaaai-me-openapi.json"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "aaaai-me-openapi.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
     "aaaai-me-openapi.json: declared missing tag: Agents",
     "aaaai-me-openapi.json: declared missing tag: Approvals",
     "aaaai-me-openapi.json: declared missing tag: Cron",
     "aaaai-me-openapi.json: declared missing tag: Deep Agent",
     "aaaai-me-openapi.json: declared missing tag: Nodes",
-    "apis.yml register: written (+16 apis, 17 total)"
+    "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "aaaai-me-agents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-approvals-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-chat-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-code-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-cognitive-scaling-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-cron-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-debug-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-deep-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-dynamic-experts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-experts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-health-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-nodes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-settings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-user-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "aaaai-me-video-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

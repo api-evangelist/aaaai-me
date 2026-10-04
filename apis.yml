@@ -129,6 +129,8 @@ apis:
   humanURL: https://web.aaaai.me/apidocs
   baseURL: https://web.aaaai.me
   tags:
+  - Authentication
+  tags_raw:
   - Auth
   properties:
   - type: OpenAPI
@@ -309,6 +311,8 @@ apis:
   humanURL: https://web.aaaai.me/apidocs
   baseURL: https://web.aaaai.me
   tags:
+  - Node
+  tags_raw:
   - Nodes
   properties:
   - type: OpenAPI

@@ -1,0 +1,21 @@
+{
+  "repo": "aaaai-me",
+  "feeds": [
+    {
+      "source": "https://aaaai.me/blog.html",
+      "feed_url": "https://aaaai.me/blog/feed.xml",
+      "title": "",
+      "saved": 10,
+      "method": "discovered"
+    },
+    {
+      "source": "https://aaaai.me/blog/feed.xml",
+      "feed_url": "https://aaaai.me/blog/feed.xml",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
+    }
+  ],
+  "post_count": 107,
+  "fetched": "2026-10-03T12:30:02Z"
+}

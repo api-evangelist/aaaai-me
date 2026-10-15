@@ -14,9 +14,48 @@ edges:
     value: OpenAI-compatible
     note: 'aaaai-me declares OpenAI compatibility: ''summary: Chat completions (OpenAI-compatible)'''
     detected_by: sweep-model-routing.py
-    detected: '2026-10-13'
+    detected: '2026-10-15'
   detected_by: sweep-model-routing.py
   first_seen: '2026-10-13'
+- partner_name: a2aregistry.org
+  partner: null
+  partner_match: register
+  type: register
+  direction: partner-built
+  category: A2A agent registry
+  evidence: https://a2aregistry.org/api/agents/ad95ea4d-2d1c-4a42-b4f2-bf2216398aaf
+  channel: standard-directory
+  relationship: compatible
+  shape: a2a
+  evidence_kind: register-listing
+  degree: listed
+  report_only: true
+  a2a_register:
+    hosts:
+    - aaaai.me
+    conformance: false
+    task_conformance_working: false
+    healthy: true
+    signal_note: booleans over the provider's hosts; listings are context, never read
+  contract_reference:
+    register: a2aregistry.org /api/agents
+    spec_file: null
+    standard: A2A
+    role: a2a-registry-listing
+    registered_name: Unknown
+    matched_domain: aaaai.me
+    matched_by: domain
+    matched_via: card-host
+    listings_context: 1
+    sample_agents:
+    - AAA AI
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-15'
+  detected_by: sweep-ai-agents.py
+  first_seen: '2026-10-15'
 generated: '2026-10-13'
 method: searched
-checked: []
+checked:
+- https://a2aregistry.org/api/agents
+source:
+- https://a2aregistry.org/api/agents

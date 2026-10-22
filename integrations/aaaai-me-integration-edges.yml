@@ -1,22 +1,4 @@
 edges:
-- partner_name: OpenAI
-  partner: openai
-  partner_match: domain
-  type: contract
-  channel: provider-built
-  relationship: compatible
-  direction: provider-built
-  evidence: https://github.com/api-evangelist/aaaai-me/blob/main/openapi/aaaai-me-chat-api-openapi.yml#L621
-  contract_reference:
-    repo: aaaai-me
-    spec_file: aaaai-me-chat-api-openapi.yml
-    property: description
-    value: OpenAI-compatible
-    note: 'aaaai-me declares OpenAI compatibility: ''summary: Chat completions (OpenAI-compatible)'''
-    detected_by: sweep-model-routing.py
-    detected: '2026-10-15'
-  detected_by: sweep-model-routing.py
-  first_seen: '2026-10-13'
 - partner_name: a2aregistry.org
   partner: null
   partner_match: register
@@ -50,9 +32,27 @@ edges:
     sample_agents:
     - AAA AI
     detected_by: sweep-ai-agents.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-ai-agents.py
   first_seen: '2026-10-15'
+- partner_name: OpenAI
+  partner: openai
+  partner_match: domain
+  type: contract
+  channel: provider-built
+  relationship: compatible
+  direction: provider-built
+  evidence: https://github.com/api-evangelist/aaaai-me/blob/main/openapi/aaaai-me-chat-api-openapi.yml#L621
+  contract_reference:
+    repo: aaaai-me
+    spec_file: aaaai-me-chat-api-openapi.yml
+    property: description
+    value: OpenAI-compatible
+    note: 'aaaai-me declares OpenAI compatibility: ''summary: Chat completions (OpenAI-compatible)'''
+    detected_by: sweep-model-routing.py
+    detected: '2026-10-19'
+  detected_by: sweep-model-routing.py
+  first_seen: '2026-10-13'
 generated: '2026-10-13'
 method: searched
 checked:

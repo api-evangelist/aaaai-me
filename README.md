@@ -64,20 +64,145 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-AAA AI (Autonomous Agents Automations; product spelling AAAAI) is a Montenegro-based multi-agent AI platform: a workspace at web.aaaai.me that routes questions through a panel of expert models, runs visual workflows with human-approval nodes, pairs desktop agents on a user's own machines, and adds Meet — voice and video calls with live AI notes. Sold as a $20/month Pro cloud plan or self-hosted.
+AAA AI (Autonomous Agents Automations; product spelling AAAAI) is a Montenegro-based multi-agent AI platform operated by Kirill Pokidov: a workspace at web.aaaai.me that routes questions through a panel of expert models with debate and verification modes, runs visual workflows with human-approval nodes across a catalog of integrations, pairs desktop "agents" on a user's own machines, and adds Meet — voice and video calls with live AI notes. Sold as a $20/month Pro cloud plan (card, crypto or SBP) or self-hosted. The API is a 102-operation Swagger 2.0 contract on web.aaaai.me (chat, streaming queries, an OpenAI-compatible /v1/chat/completions, approvals, cron jobs, goal jobs, experts, settings) authenticated by an X-User-Login header, plus a documented crypto checkout API that lets an agent buy the subscription autonomously. The static site aaaai.me publishes an unusually complete agent-discovery layer — RFC 9727 api-catalog, OAuth/OIDC/RFC 9728 metadata, ai-plugin.json, an MCP server card, an agentskills.io index, agent-payments.json, llms.txt and the full ai-visibility.org.uk file set — several of whose targets (the named OpenAPI URL, the MCP endpoint, the JWKS) do not exist.
 
-What this profile found (2026-09-19):
+**Areas:** Artificial Intelligence · Agents · Multi-Agent · LLM Orchestration · Meetings · Voice · Video · Workflows · MCP · Agentic Commerce · OpenAI-Compatible · Self-Hosted
 
-- **Contract** — a real Swagger 2.0 document, "AAAAI API" 1.1.0, 102 operations, at `https://web.aaaai.me/api/spec.json` (the URL the Flasgger UI at `/apidocs` loads). Every provider discovery file names `/apispec_1.json` instead, which is a 404. Saved verbatim in `openapi/`.
-- **Discovery layer** — aaaai.me serves an RFC 9727 api-catalog, OAuth 2.0 / OpenID / RFC 9728 metadata, ai-plugin.json, an MCP server card, an agentskills.io index, agent-payments.json, llms.txt and the ai-visibility.org.uk file set. Several targets do not exist: the MCP transport URL is a GET-only catalog of third-party stdio servers (POST tools/list -> 405), `/api/mcp` is a 404, and the declared JWKS is a 404. Details in `well-known/`, `mcp/`, `conformance/`.
-- **Not an A2A card** — `/.well-known/agent.json` (how this company reached the harvest via a2aregistry.org) is a site manifest with name, url and links only; it fails the AgentCard shape test, so no `a2a/` artifact exists here.
-- **Agent commerce** — a documented crypto checkout API lets an agent buy Pro for a workspace email; see `plans/` and `skills/aaaai-me-buy-pro-as-agent.md`.
+## AAA AI on APIs.io
 
-Links:
+Everything profiled for AAA AI is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/aaaai-me/](https://apis.io/providers/aaaai-me/)** — or go straight to one of the APIs or properties below.
 
-- Website: https://aaaai.me/
-- Workspace / API host: https://web.aaaai.me/
-- API reference (Swagger UI): https://web.aaaai.me/apidocs
-- Docs: https://aaaai.me/docs.html
-- Agent auth guide: https://aaaai.me/auth.md
-- Pricing: https://aaaai.me/pay/
+### APIs (17)
+
+- [AAA AI Agent Checkout (Billing) API](https://apis.io/apis/aaaai-me/aaaai-agent-checkout-api/) — The provider-documented purchase surface for autonomous agents, described in https://aaaai.me/pay.md and machine-readably in…
+- [AAA AI Agents API](https://apis.io/apis/aaaai-me/aaaai-me-agents-api/) — The Agents API from AAA AI — 3 operation(s) for agents.
+- [AAA AI Approvals API](https://apis.io/apis/aaaai-me/aaaai-me-approvals-api/) — The Approvals API from AAA AI — 3 operation(s) for approvals.
+- [AAA AI Auth API](https://apis.io/apis/aaaai-me/aaaai-me-auth-api/) — Authentication
+- [AAA AI Chat API](https://apis.io/apis/aaaai-me/aaaai-me-chat-api/) — Chat and queries
+- [AAA AI Code API](https://apis.io/apis/aaaai-me/aaaai-me-code-api/) — Code-only generation (Cursor / CLI / IDE)
+- [AAA AI Cognitive Scaling API](https://apis.io/apis/aaaai-me/aaaai-me-cognitive-scaling-api/) — Cognitive scaling status and control
+- [AAA AI Cron API](https://apis.io/apis/aaaai-me/aaaai-me-cron-api/) — The Cron API from AAA AI — 3 operation(s) for cron.
+- [AAA AI Debug API](https://apis.io/apis/aaaai-me/aaaai-me-debug-api/) — Debug and development
+- [AAA AI Deep Agent API](https://apis.io/apis/aaaai-me/aaaai-me-deep-agent-api/) — The Deep Agent API from AAA AI — 3 operation(s) for deep agent.
+- [AAA AI Dynamic Experts API](https://apis.io/apis/aaaai-me/aaaai-me-dynamic-experts-api/) — Dynamic expert creation and management
+- [AAA AI Experts API](https://apis.io/apis/aaaai-me/aaaai-me-experts-api/) — Expert system management
+- [AAA AI Health API](https://apis.io/apis/aaaai-me/aaaai-me-health-api/) — Health and status
+- [AAA AI Nodes API](https://apis.io/apis/aaaai-me/aaaai-me-nodes-api/) — The Nodes API from AAA AI — 2 operation(s) for nodes.
+- [AAA AI Settings API](https://apis.io/apis/aaaai-me/aaaai-me-settings-api/) — Platform and expert settings
+- [AAA AI User API](https://apis.io/apis/aaaai-me/aaaai-me-user-api/) — Current user and avatar
+- [AAA AI Video API](https://apis.io/apis/aaaai-me/aaaai-me-video-api/) — Video sessions
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [aaaai-me-mcp.yml](https://apis.io/servers/aaaai-me/aaaai-me-mcp-yml/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Aaaai Me Agentic Access](https://apis.io/agentic-access/aaaai-me/aaaai-me-agentic-access/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Aaaai Me Openapi Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Aaaai Me Authentication](https://apis.io/security/aaaai-me/aaaai-me-authentication/)
+- [Aaaai Me Domain Security](https://apis.io/security/aaaai-me/aaaai-me-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Aaaai Me Scopes](https://apis.io/scopes/aaaai-me/aaaai-me-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Aaaai Me Plans Pricing](https://apis.io/plans/aaaai-me/aaaai-me-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Aaaai Me Rate Limits](https://apis.io/rate-limits/aaaai-me/aaaai-me-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://aaaai.me/)
+- [Documentation](https://aaaai.me/docs.html)
+- [Getting started](https://aaaai.me/auth.md)
+- [API reference](https://web.aaaai.me/apidocs)
+- [Pricing](https://aaaai.me/pay/)
+- [Sign up](https://aaaai.me/register.html)
+- [Changelog](https://aaaai.me/news/feed.xml)
+- [Blog](https://aaaai.me/blog.html)
+- [Terms of service](https://aaaai.me/terms-and-conditions.html)
+- [Privacy policy](https://aaaai.me/privacy.html)
+
+## API Evangelist rating
+
+**Kin Score 53.1** — developing · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 85.7 |
+| Contract quality | 42.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 15.8 |
+| Developer ergonomics | 66.1 |
+| Access clarity | 65.8 |
+
+**Agent readiness 43.3** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | yes |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+
+**Regulatory alignment 42.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/aaaai-me/](https://apis.io/providers/aaaai-me/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for AAA AI: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/aaaai-me/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).

@@ -106,38 +106,60 @@ Model Context Protocol servers that expose the API to agents.
 
 Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Aaaai Me Agentic Access](https://apis.io/agentic-access/aaaai-me/aaaai-me-agentic-access/)
+- [AAA AI Agentic Access](https://apis.io/agentic-access/aaaai-me/aaaai-me-agentic-access/)
 
-#### Overlays (1)
+#### Overlays (10)
 
 OpenAPI overlays, including conversational phrasing for each operation.
 
-- [Aaaai Me Openapi Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-openapi-overlay/)
+- [AAA AI Agents Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-agents-api-certification-overlay/)
+- [AAA AI Chat Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-chat-api-certification-overlay/)
+- [AAA AI Cognitive Scaling Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-cognitive-scaling-api-certification-overlay/)
+- [AAA AI Debug Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-debug-api-certification-overlay/)
+- [AAA AI Dynamic Experts Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-dynamic-experts-api-certification-overlay/)
+- [AAA AI Experts Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-experts-api-certification-overlay/)
+- [AAA AI Health Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-health-api-certification-overlay/)
+- [AAA AI Openapi Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-openapi-overlay/)
+- [AAA AI Settings Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-settings-api-certification-overlay/)
+- [AAA AI Video Api Certification Overlay](https://apis.io/overlays/aaaai-me/aaaai-me-video-api-certification-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [AAA AI API Rules](https://apis.io/rules/aaaai-me/aaaai-me-rules/)
 
 #### Security (2)
 
 Authentication, trust centre, and vulnerability disclosure.
 
-- [Aaaai Me Authentication](https://apis.io/security/aaaai-me/aaaai-me-authentication/)
-- [Aaaai Me Domain Security](https://apis.io/security/aaaai-me/aaaai-me-domain-security/)
+- [AAA AI Authentication](https://apis.io/security/aaaai-me/aaaai-me-authentication/)
+- [AAA AI Domain Security](https://apis.io/security/aaaai-me/aaaai-me-domain-security/)
 
 #### OAuth scopes (1)
 
 The permissions the API asks for.
 
-- [Aaaai Me Scopes](https://apis.io/scopes/aaaai-me/aaaai-me-scopes/)
+- [AAA AI Scopes](https://apis.io/scopes/aaaai-me/aaaai-me-scopes/)
 
-#### Plans and pricing (1)
+#### Plans and pricing (2)
 
 Published plans, tiers and prices.
 
-- [Aaaai Me Plans Pricing](https://apis.io/plans/aaaai-me/aaaai-me-plans-pricing/)
+- [AAA AI Plans Pricing](https://apis.io/plans/aaaai-me/aaaai-me-plans-pricing/)
+- [AAA AI Price Estimates](https://apis.io/plans/aaaai-me/aaaai-me-price-estimates/)
 
 #### Rate limits (1)
 
 Published request limits.
 
-- [Aaaai Me Rate Limits](https://apis.io/rate-limits/aaaai-me/aaaai-me-rate-limits/)
+- [AAA AI Rate Limits](https://apis.io/rate-limits/aaaai-me/aaaai-me-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [AAA AI Finops](https://apis.io/finops/aaaai-me/aaaai-me-finops/)
 
 ## Where to find this API
 
@@ -156,18 +178,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 53.1** — developing · rubric 0.25.0 · scored 2026-10-23
+**Kin Score 56.8** — strong · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
 | Discoverability | 85.7 |
 | Contract quality | 42.0 |
-| Contract governance | 18.2 |
-| Operational transparency | 15.8 |
+| Contract governance | 31.8 |
+| Operational transparency | 14.3 |
 | Developer ergonomics | 66.1 |
-| Access clarity | 65.8 |
+| Access clarity | 80.9 |
 
-**Agent readiness 44.5** — agent-ready (gated down from agent-native)
+**Agent readiness 45.7** — agent-ready (gated down from agent-native)
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -183,7 +205,7 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Event Surface Described | — |
 | Agent Skills | derived (partial credit) |
 | Well Known Catalog | yes |
-| Consent Identity | — |
+| Consent Identity | deployed |
 | Agent Card | — |
 | Dry Run Mode | yes |
 | Delegated Identity | served (partial credit) |
@@ -192,8 +214,12 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Agentic Commerce | — |
 | Pagination Ratio | na |
 | Operation Distinctiveness | distinct |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 42.7** — Horizontal (data, software, accessibility, platform)
+**Regulatory alignment 37.3** — Horizontal (data, software, accessibility, platform)
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/aaaai-me/](https://apis.io/providers/aaaai-me/).
 
